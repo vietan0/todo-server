@@ -1,10 +1,10 @@
 {
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
     "noEmitOnError": true,
-    "sourceMap": true,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noUnusedLocals": true
+    "outDir": "dist",
+    "sourceMap": true
   }
 }
