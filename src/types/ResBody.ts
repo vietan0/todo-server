@@ -3,14 +3,10 @@ type Success<D = object> = {
   status: 'success';
   data?: D | null;
 };
-type Fail = {
-  status: 'fail';
-  data: object;
-};
 type Error = {
   status: 'error';
   message: string;
   error: object;
 };
 
-export type ResBody<D = object | null> = Success<D> | Fail | Error;
+export type ResBody<D = object | null> = Success<D> | Error;

@@ -2,9 +2,10 @@ import { Router } from 'express';
 
 import signIn from './handlers/signIn.js';
 import signUp from './handlers/signUp.js';
+import validate from './handlers/validate.js';
 
 const authRouter = Router();
-authRouter.post('/signup', signUp);
-authRouter.post('/signin', signIn);
+authRouter.post('/signup', validate, signUp);
+authRouter.post('/signin', validate, signIn);
 
 export default authRouter;

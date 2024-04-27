@@ -1,5 +1,5 @@
 {
-  "name": "be-template",
+  "name": "todo-server",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -24,7 +24,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "zod": "^3.23.4",
+    "zod-validation-error": "^3.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
