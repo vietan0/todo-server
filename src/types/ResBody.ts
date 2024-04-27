@@ -6,7 +6,7 @@ type Success<D = object> = {
 type Error = {
   status: 'error';
   message: string;
-  error: object;
+  error?: object;
 };
 
 export type ResBody<D = object | null> = Success<D> | Error;

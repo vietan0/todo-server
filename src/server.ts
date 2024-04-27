@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import apiRouter from './apiRouter.js';
 import authRouter from './authRouter.js';
 import errHandler from './handlers/errHandler.js';
+import auth from './middlewares/auth.js';
 import { ResBody } from './types/ResBody.js';
 
 const app = express();
@@ -18,7 +19,7 @@ app.get('/', (_req, res: Response<ResBody>) => {
   res.json({ status: 'success' });
 });
 
-app.use('/api' /* , protect middleware */, apiRouter);
+app.use('/api', auth, apiRouter);
 app.use('/auth', authRouter);
 app.use(errHandler);
 
