@@ -4,5 +4,8 @@ export default async function comparePasswords(
   plainPassword: string,
   hashed: string,
 ) {
-  return bcrypt.compare(plainPassword, hashed);
+  const result = await bcrypt.compare(plainPassword, hashed);
+  if (!result) throw new Error('Password is incorrect');
+
+  return;
 }

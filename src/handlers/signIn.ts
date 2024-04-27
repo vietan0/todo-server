@@ -13,35 +13,13 @@ const signIn: RequestHandler<
   AuthPayload
 > = async (req, res, next) => {
   try {
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findUniqueOrThrow({
       where: {
         email: req.body.email,
       },
     });
 
-    if (!existingUser) {
-      return res.status(400).json({
-        status: 'fail',
-        data: {
-          email: `Email doesn't exist in database`,
-        },
-      });
-    }
-
-    const isPasswordCorrect = await comparePasswords(
-      req.body.password,
-      existingUser.password,
-    );
-
-    if (!isPasswordCorrect) {
-      return res.status(400).json({
-        status: 'fail',
-        data: {
-          password: 'Password is incorrect',
-        },
-      });
-    }
-
+    await comparePasswords(req.body.password, existingUser.password);
     const token = createToken(existingUser.id);
     res.json({ status: 'success', data: { token } });
   } catch (error) {
