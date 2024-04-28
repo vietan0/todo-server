@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 
 import resetDb from './prisma/resetDb.js';
 import app from './server.js';
-import { AuthPayload } from './types/AuthPayload.js';
+import { AuthPayload } from './types/payloads.js';
 
 beforeAll(async () => {
   await resetDb();

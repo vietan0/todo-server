@@ -2,8 +2,8 @@ import { RequestHandler } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
 import prisma from '../prisma/client.js';
-import { AuthPayload } from '../types/AuthPayload.js';
-import { ResBody } from '../types/ResBody.js';
+import { ResBody } from '../types/express/ResBody.js';
+import { AuthPayload } from '../types/payloads.js';
 import comparePasswords from '../utils/comparePasswords.js';
 import createToken from '../utils/createToken.js';
 

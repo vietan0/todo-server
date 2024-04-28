@@ -3,7 +3,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { ZodError } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-import { ResBody } from '../types/ResBody.js';
+import { ResBody } from '../types/express/ResBody.js';
 
 const errHandler: ErrorRequestHandler<ParamsDictionary, ResBody> = (
   err,

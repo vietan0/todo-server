@@ -5,7 +5,7 @@ import apiRouter from './apiRouter.js';
 import authRouter from './authRouter.js';
 import errHandler from './handlers/errHandler.js';
 import auth from './middlewares/auth.js';
-import { ResBody } from './types/ResBody.js';
+import { ResBody } from './types/express/ResBody.js';
 
 const app = express();
 // useful logger

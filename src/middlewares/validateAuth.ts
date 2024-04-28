@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { AuthPayload, authPayloadSchema } from '../types/AuthPayload.js';
+import { AuthPayload } from '../types/payloads.js';
+import { authPayloadSchema } from '../types/payloadSchemas.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const validate: RequestHandler<ParamsDictionary, any, AuthPayload> = (
+const validateAuth: RequestHandler<ParamsDictionary, never, AuthPayload> = (
   req,
   _res,
   next,
@@ -17,4 +17,4 @@ const validate: RequestHandler<ParamsDictionary, any, AuthPayload> = (
   }
 };
 
-export default validate;
+export default validateAuth;
