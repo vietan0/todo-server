@@ -2,12 +2,10 @@ module.exports = {
   root: true,
   env: { node: true, es2020: true },
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'package*.json'],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   plugins: ['simple-import-sort', '@stylistic'],
   rules: {
-    'sort-keys': ['error', 'asc', { minKeys: 4 }],
-    'no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': 'off', // https://github.com/typescript-eslint/typescript-eslint/issues/4641
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',

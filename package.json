@@ -6,8 +6,10 @@
   "scripts": {
     "check": "npm-run-all -p type lint prettier test:once",
     "dev": "tsx watch src",
+    "dev-pm": "npm-run-all -p pm dev",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "mig": "prisma migrate dev --name",
+    "pm": "bash ./postman.sh",
     "prepare": "husky",
     "prettier": "prettier . --write",
     "start": "node dist/src",
