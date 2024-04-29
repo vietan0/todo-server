@@ -1,5 +1,6 @@
 {
   "extends": "@tsconfig/node20/tsconfig.json",
+  "exclude": ["ignore"],
   "compilerOptions": {
     "noEmitOnError": true,
     "noUnusedLocals": true,

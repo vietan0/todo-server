@@ -1,0 +1,51 @@
+{
+  "keyOrder": [
+    "$schema",
+    "private",
+    "name",
+    "type",
+    "version",
+    "description",
+    "keywords",
+    "license",
+    "author",
+    "maintainers",
+    "contributors",
+    "homepage",
+    "repository",
+    "bugs",
+
+    "exports",
+    "main",
+    "module",
+    "browser",
+    "man",
+    "preferGlobal",
+    "bin",
+    "files",
+    "directories",
+    "scripts",
+    "config",
+    "sideEffects",
+    "types",
+    "typings",
+
+    "workspaces",
+    "resolutions",
+
+    "dependencies",
+    "bundleDependencies",
+    "bundledDependencies",
+    "peerDependencies",
+    "peerDependenciesMeta",
+    "optionalDependencies",
+    "devDependencies",
+
+    "engines",
+    "engineStrict",
+    "os",
+    "cpu",
+
+    "publishConfig"
+  ]
+}
