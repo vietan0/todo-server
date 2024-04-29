@@ -66,6 +66,9 @@ export const getProjectById: RequestHandler<{ id: string }, ResBody> = async (
     const project = await prisma.project.findUniqueOrThrow({
       where: {
         id: req.params.id,
+        user: {
+          id: req.userId,
+        },
       },
       include: {
         tasks: true,
@@ -87,6 +90,9 @@ export const updateProject: RequestHandler<
     const updatedProject = await prisma.project.update({
       where: {
         id: req.params.id,
+        user: {
+          id: req.userId,
+        },
       },
       data: req.body,
       include: {
@@ -109,6 +115,9 @@ export const deleteProject: RequestHandler<{ id: string }, ResBody> = async (
     const deletedProject = await prisma.project.delete({
       where: {
         id: req.params.id,
+        user: {
+          id: req.userId,
+        },
       },
       include: {
         tasks: true,
