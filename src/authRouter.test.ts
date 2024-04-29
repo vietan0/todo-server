@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 
 import resetDb from './prisma/resetDb.js';
 import app from './server.js';
-import { AuthPayload } from './types/payloads.js';
+import { ReqBodyCreateUser } from './types/schemas.js';
 
 beforeAll(async () => {
   await resetDb();
@@ -15,12 +15,12 @@ afterAll(async () => {
   vi.restoreAllMocks();
 });
 
-const authPayload: AuthPayload = {
+const authPayload: ReqBodyCreateUser = {
   email: 'vitest@gmail.com',
   password: 'vitest',
 };
 
-async function sendSignUp(payload: Partial<AuthPayload> = authPayload) {
+async function sendSignUp(payload: Partial<ReqBodyCreateUser> = authPayload) {
   return await request(app).post('/auth/signup').send(payload);
 }
 
@@ -52,7 +52,7 @@ describe('Sign Up', () => {
     const res = await sendSignUp({ password: authPayload.password });
     expect(res.status).toEqual(400);
     expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('Email is required');
+    expect(res.body.message).toMatch('Required at "email"');
   });
 
   test('email invalid', async () => {
@@ -71,7 +71,7 @@ describe('Sign Up', () => {
 
     expect(res.status).toEqual(400);
     expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('Email is longer');
+    expect(res.body.message).toMatch('contain at most 255 character(s)');
   });
 
   test('password missing', async () => {
@@ -81,7 +81,7 @@ describe('Sign Up', () => {
 
     expect(res.status).toEqual(400);
     expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('Password is required');
+    expect(res.body.message).toMatch('Required at "password"');
   });
 
   test('password too short', async () => {
@@ -92,7 +92,7 @@ describe('Sign Up', () => {
 
     expect(res.status).toEqual(400);
     expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('Password must be at least');
+    expect(res.body.message).toMatch('contain at least 4 character(s)');
   });
 });
 

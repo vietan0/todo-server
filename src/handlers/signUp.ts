@@ -3,14 +3,14 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
-import { AuthPayload } from '../types/payloads.js';
+import { ReqBodyCreateUser } from '../types/schemas.js';
 import createToken from '../utils/createToken.js';
 import hashPassword from '../utils/hashPassword.js';
 
 const signUp: RequestHandler<
   ParamsDictionary,
   ResBody<{ token: string }>,
-  AuthPayload
+  ReqBodyCreateUser
 > = async (req, res, next) => {
   try {
     const hashedPassword = await hashPassword(req.body.password);

@@ -1,16 +1,18 @@
 import { RequestHandler } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { AuthPayload } from '../types/payloads.js';
-import { authPayloadSchema } from '../types/payloadSchemas.js';
+import {
+  ReqBodyCreateUser,
+  ReqBodyCreateUserSchema,
+} from '../types/schemas.js';
 
-const validateAuth: RequestHandler<ParamsDictionary, never, AuthPayload> = (
-  req,
-  _res,
-  next,
-) => {
+const validateAuth: RequestHandler<
+  ParamsDictionary,
+  never,
+  ReqBodyCreateUser
+> = (req, _res, next) => {
   try {
-    authPayloadSchema.parse(req.body);
+    ReqBodyCreateUserSchema.parse(req.body);
     next();
   } catch (error) {
     next(error);

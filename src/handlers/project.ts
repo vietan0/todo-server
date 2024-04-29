@@ -3,12 +3,15 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
-import { ProjectCreatePayloadRequired } from '../types/payloads.js';
+import {
+  ReqBodyCreateProject,
+  ReqBodyUpdateProject,
+} from '../types/schemas.js';
 
 export const createProject: RequestHandler<
   ParamsDictionary,
   ResBody,
-  ProjectCreatePayloadRequired
+  ReqBodyCreateProject
 > = async (req, res, next) => {
   try {
     const newProject = await prisma.project.create({
@@ -20,12 +23,12 @@ export const createProject: RequestHandler<
           },
         },
       },
+      include: {
+        tasks: true,
+      },
     });
 
-    res.json({
-      status: 'success',
-      data: newProject,
-    });
+    res.json({ status: 'success', data: newProject });
   } catch (error) {
     next(error);
   }
@@ -48,16 +51,11 @@ export const getProjects: RequestHandler<ParamsDictionary, ResBody> = async (
       },
     });
 
-    res.json({
-      status: 'success',
-      data: projects,
-    });
+    res.json({ status: 'success', data: projects });
   } catch (error) {
     next(error);
   }
 };
-
-export const getProjectsWithoutTasks = () => {};
 
 export const getProjectById: RequestHandler<{ id: string }, ResBody> = async (
   req,
@@ -69,9 +67,55 @@ export const getProjectById: RequestHandler<{ id: string }, ResBody> = async (
       where: {
         id: req.params.id,
       },
+      include: {
+        tasks: true,
+      },
     });
 
     res.json({ status: 'success', data: project });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProject: RequestHandler<
+  { id: string },
+  ResBody,
+  ReqBodyUpdateProject
+> = async (req, res, next) => {
+  try {
+    const updatedProject = await prisma.project.update({
+      where: {
+        id: req.params.id,
+      },
+      data: req.body,
+      include: {
+        tasks: true,
+      },
+    });
+
+    res.json({ status: 'success', data: updatedProject });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteProject: RequestHandler<{ id: string }, ResBody> = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const deletedProject = await prisma.project.delete({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        tasks: true,
+      },
+    });
+
+    res.json({ status: 'success', data: deletedProject });
   } catch (error) {
     next(error);
   }

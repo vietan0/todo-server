@@ -1,16 +1,18 @@
 import { RequestHandler } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { ProjectCreatePayloadRequired } from '../types/payloads.js';
-import { projectCreatePayloadRequiredSchema } from '../types/payloadSchemas.js';
+import {
+  ReqBodyCreateProject,
+  ReqBodyCreateProjectSchema,
+} from '../types/schemas.js';
 
 const validateCreateProject: RequestHandler<
   ParamsDictionary,
   never,
-  ProjectCreatePayloadRequired
+  ReqBodyCreateProject
 > = (req, _res, next) => {
   try {
-    projectCreatePayloadRequiredSchema.parse(req.body);
+    ReqBodyCreateProjectSchema.parse(req.body);
     next();
   } catch (error) {
     next(error);

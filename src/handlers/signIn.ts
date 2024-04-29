@@ -3,14 +3,14 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
-import { AuthPayload } from '../types/payloads.js';
+import { ReqBodyCreateUser } from '../types/schemas.js';
 import comparePasswords from '../utils/comparePasswords.js';
 import createToken from '../utils/createToken.js';
 
 const signIn: RequestHandler<
   ParamsDictionary,
   ResBody<{ token: string }>,
-  AuthPayload
+  ReqBodyCreateUser
 > = async (req, res, next) => {
   try {
     const existingUser = await prisma.user.findUniqueOrThrow({
