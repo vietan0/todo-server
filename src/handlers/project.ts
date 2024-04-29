@@ -30,3 +30,49 @@ export const createProject: RequestHandler<
     next(error);
   }
 };
+
+export const getProjects: RequestHandler<ParamsDictionary, ResBody> = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const projects = await prisma.project.findMany({
+      where: {
+        user: {
+          id: req.userId,
+        },
+      },
+      include: {
+        tasks: true,
+      },
+    });
+
+    res.json({
+      status: 'success',
+      data: projects,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProjectsWithoutTasks = () => {};
+
+export const getProjectById: RequestHandler<{ id: string }, ResBody> = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const project = await prisma.project.findUniqueOrThrow({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.json({ status: 'success', data: project });
+  } catch (error) {
+    next(error);
+  }
+};
