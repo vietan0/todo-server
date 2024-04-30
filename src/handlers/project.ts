@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
@@ -9,7 +8,7 @@ import {
 } from '../types/schemas.js';
 
 export const createProject: RequestHandler<
-  ParamsDictionary,
+  never,
   ResBody,
   ReqBodyCreateProject
 > = async (req, res, next) => {
@@ -34,7 +33,7 @@ export const createProject: RequestHandler<
   }
 };
 
-export const getProjects: RequestHandler<ParamsDictionary, ResBody> = async (
+export const getProjects: RequestHandler<never, ResBody> = async (
   req,
   res,
   next,

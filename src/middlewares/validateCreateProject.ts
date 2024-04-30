@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 
 import {
   ReqBodyCreateProject,
@@ -7,7 +6,7 @@ import {
 } from '../types/schemas.js';
 
 const validateCreateProject: RequestHandler<
-  ParamsDictionary,
+  never,
   never,
   ReqBodyCreateProject
 > = (req, _res, next) => {

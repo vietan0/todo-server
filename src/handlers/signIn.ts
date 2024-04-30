@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
@@ -8,7 +7,7 @@ import comparePasswords from '../utils/comparePasswords.js';
 import createToken from '../utils/createToken.js';
 
 const signIn: RequestHandler<
-  ParamsDictionary,
+  never,
   ResBody<{ token: string }>,
   ReqBodyCreateUser
 > = async (req, res, next) => {

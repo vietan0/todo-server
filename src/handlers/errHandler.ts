@@ -1,11 +1,10 @@
 import { ErrorRequestHandler } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 import { ZodError } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
 import { ResBody } from '../types/express/ResBody.js';
 
-const errHandler: ErrorRequestHandler<ParamsDictionary, ResBody> = (
+const errHandler: ErrorRequestHandler<never, ResBody> = (
   err,
   _req,
   res,

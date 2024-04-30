@@ -1,10 +1,9 @@
 import { RequestHandler } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 import jwt, { Secret } from 'jsonwebtoken';
 
 import { ResBody } from '../types/express/ResBody.js';
 
-const auth: RequestHandler<ParamsDictionary, ResBody> = (req, res, next) => {
+const auth: RequestHandler<never, ResBody> = (req, res, next) => {
   if (!req.headers.authorization)
     return res
       .status(401)
