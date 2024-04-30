@@ -20,10 +20,7 @@ morgan.token('body', (req: IncomingMessage & { body: object }) => {
 });
 
 app.use(morgan('dev'), morgan(':params \n:body '));
-
-// help server read incoming JSON data in req.body
 app.use(express.json());
-// help server read incoming form data in req.body
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (_req, res: Response<ResBody>) => {

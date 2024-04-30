@@ -6,7 +6,7 @@ import {
 } from '../types/schemas.js';
 
 const validateUpdateProject: RequestHandler<
-  { id: string },
+  { projectId: string },
   never,
   ReqBodyUpdateProject
 > = (req, _res, next) => {

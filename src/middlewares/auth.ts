@@ -7,7 +7,7 @@ const auth: RequestHandler<never, ResBody> = (req, res, next) => {
   if (!req.headers.authorization)
     return res
       .status(401)
-      .json({ status: 'error', message: `Authroization header doesn't exist` });
+      .json({ status: 'error', message: `Authorization header doesn't exist` });
 
   const token = req.headers.authorization.split(' ')[1];
 

@@ -56,15 +56,14 @@ export const getProjects: RequestHandler<never, ResBody> = async (
   }
 };
 
-export const getProjectById: RequestHandler<{ id: string }, ResBody> = async (
-  req,
-  res,
-  next,
-) => {
+export const getProjectById: RequestHandler<
+  { projectId: string },
+  ResBody
+> = async (req, res, next) => {
   try {
     const project = await prisma.project.findUniqueOrThrow({
       where: {
-        id: req.params.id,
+        id: req.params.projectId,
         user: {
           id: req.userId,
         },
@@ -81,14 +80,14 @@ export const getProjectById: RequestHandler<{ id: string }, ResBody> = async (
 };
 
 export const updateProject: RequestHandler<
-  { id: string },
+  { projectId: string },
   ResBody,
   ReqBodyUpdateProject
 > = async (req, res, next) => {
   try {
     const updatedProject = await prisma.project.update({
       where: {
-        id: req.params.id,
+        id: req.params.projectId,
         user: {
           id: req.userId,
         },
@@ -105,15 +104,14 @@ export const updateProject: RequestHandler<
   }
 };
 
-export const deleteProject: RequestHandler<{ id: string }, ResBody> = async (
-  req,
-  res,
-  next,
-) => {
+export const deleteProject: RequestHandler<
+  { projectId: string },
+  ResBody
+> = async (req, res, next) => {
   try {
     const deletedProject = await prisma.project.delete({
       where: {
-        id: req.params.id,
+        id: req.params.projectId,
         user: {
           id: req.userId,
         },

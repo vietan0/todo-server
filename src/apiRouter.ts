@@ -7,19 +7,23 @@ import {
   getProjects,
   updateProject,
 } from './handlers/project.js';
-import { createTask } from './handlers/task.js';
+import { createTask, getTaskById, getTasks } from './handlers/task.js';
 import validateCreateProject from './middlewares/validateCreateProject.js';
 import validateCreateTask from './middlewares/validateCreateTask.js';
 import validateUpdateProject from './middlewares/validateUpdateProject.js';
 
 const apiRouter = Router();
 
+// project CRUD
 apiRouter.get('/project', getProjects);
-apiRouter.get('/project/:id', getProjectById);
+apiRouter.get('/project/:projectId', getProjectById);
 apiRouter.post('/project', validateCreateProject, createProject);
-apiRouter.patch('/project/:id', validateUpdateProject, updateProject);
-apiRouter.delete('/project/:id', deleteProject);
+apiRouter.patch('/project/:projectId', validateUpdateProject, updateProject);
+apiRouter.delete('/project/:projectId', deleteProject);
 
-apiRouter.post('/task', validateCreateTask, createTask);
+// task CRUD
+apiRouter.get('/project/:projectId/task', getTasks);
+apiRouter.get('/task/:taskId', getTaskById);
+apiRouter.post('/project/:projectId/task', validateCreateTask, createTask);
 
 export default apiRouter;

@@ -34,7 +34,7 @@ export const ReqBodyUpdateProjectSchema: toZod<ReqBodyUpdateProject> = z.object(
 );
 export type ReqBodyCreateTask = Pick<
   Prisma.TaskUncheckedCreateInput,
-  'name' | 'projectId' | 'parentTaskId'
+  'name' | 'parentTaskId'
 >;
 export const ReqBodyCreateTaskSchema: toZod<ReqBodyCreateTask> = z.object({
   name: z.string().max(255),
