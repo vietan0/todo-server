@@ -38,6 +38,5 @@ export type ReqBodyCreateTask = Pick<
 >;
 export const ReqBodyCreateTaskSchema: toZod<ReqBodyCreateTask> = z.object({
   name: z.string().max(255),
-  projectId: z.string().uuid(),
   parentTaskId: z.string().uuid().optional(),
 });

@@ -16,8 +16,18 @@ export const createTask: RequestHandler<
         project: {
           connect: {
             id: req.params.projectId,
+            user: {
+              id: req.userId, // to verify ownership of projectId
+            },
           },
         },
+        parentTask: req.body.parentTaskId
+          ? {
+              connect: {
+                id: req.body.parentTaskId,
+              },
+            }
+          : undefined, // undefined means the whole parentTask key is not provided at all
       },
       include: {
         subTasks: true,
