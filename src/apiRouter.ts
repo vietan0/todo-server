@@ -7,10 +7,16 @@ import {
   getProjects,
   updateProject,
 } from './handlers/project.js';
-import { createTask, getTaskById, getTasks } from './handlers/task.js';
+import {
+  createTask,
+  getTaskById,
+  getTasks,
+  updateTask,
+} from './handlers/task.js';
 import validateCreateProject from './middlewares/validateCreateProject.js';
 import validateCreateTask from './middlewares/validateCreateTask.js';
 import validateUpdateProject from './middlewares/validateUpdateProject.js';
+import validateUpdateTask from './middlewares/validateUpdateTask.js';
 
 const apiRouter = Router();
 
@@ -25,5 +31,6 @@ apiRouter.delete('/project/:projectId', deleteProject);
 apiRouter.get('/project/:projectId/task', getTasks);
 apiRouter.get('/task/:taskId', getTaskById);
 apiRouter.post('/project/:projectId/task', validateCreateTask, createTask);
+apiRouter.patch('/task/:taskId', validateUpdateTask, updateTask);
 
 export default apiRouter;

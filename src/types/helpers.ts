@@ -9,16 +9,19 @@ export type Primitive =
   | null
   | undefined
   | Date;
-export type ExtractPrimitives<T> = {
+export type PickPrimitive<T> = {
   [K in keyof T as T[K] extends Primitive ? K : never]: T[K];
 };
 // NonNever borrowed from ts-essentials - https://github.com/ts-essentials/ts-essentials/tree/master/lib/non-never
-export declare type NonNever<Type extends {}> = Pick<
-  Type,
+export declare type NonNever<T extends {}> = Pick<
+  T,
   {
-    [Key in keyof Type]: Type[Key] extends never ? never : Key;
-  }[keyof Type]
+    [K in keyof T]: T[K] extends never ? never : K;
+  }[keyof T]
 >;
 export type PickRequired<T> = {
   [K in keyof T as Omit<T, K> extends T ? never : K]: T[K];
+};
+export type ExtractPrimitive<T> = {
+  [K in keyof T]: Extract<T[K], Primitive>;
 };

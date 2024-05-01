@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
-import { ReqBodyCreateTask } from '../types/schemas.js';
+import { ReqBodyCreateTask, ReqBodyUpdateTask } from '../types/schemas.js';
 
 export const createTask: RequestHandler<
   { projectId: string },
@@ -10,9 +10,11 @@ export const createTask: RequestHandler<
   ReqBodyCreateTask
 > = async (req, res, next) => {
   try {
+    const { name, parentTaskId } = req.body;
+
     const newTask = await prisma.task.create({
       data: {
-        name: req.body.name,
+        name: name,
         project: {
           connect: {
             id: req.params.projectId,
@@ -21,10 +23,10 @@ export const createTask: RequestHandler<
             },
           },
         },
-        parentTask: req.body.parentTaskId
+        parentTask: parentTaskId
           ? {
               connect: {
-                id: req.body.parentTaskId,
+                id: parentTaskId,
               },
             }
           : undefined, // undefined means the whole parentTask key is not provided at all
@@ -87,6 +89,49 @@ export const getTaskById: RequestHandler<{ taskId: string }, ResBody> = async (
     });
 
     res.json({ status: 'success', data: task });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateTask: RequestHandler<
+  { taskId: string },
+  ResBody,
+  ReqBodyUpdateTask
+> = async (req, res, next) => {
+  try {
+    const { name, completed, projectId, parentTaskId } = req.body;
+
+    const updatedTask = await prisma.task.update({
+      where: {
+        id: req.params.taskId,
+        project: {
+          user: {
+            id: req.userId,
+          },
+        },
+      },
+      data: {
+        name: name,
+        completed: completed,
+        project: projectId
+          ? {
+              connect: {
+                id: projectId,
+              },
+            }
+          : undefined,
+        parentTask: parentTaskId
+          ? {
+              connect: {
+                id: parentTaskId,
+              },
+            }
+          : undefined,
+      },
+    });
+
+    res.json({ status: 'success', data: updatedTask });
   } catch (error) {
     next(error);
   }

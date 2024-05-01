@@ -5,11 +5,11 @@ import {
   ReqBodyCreateTaskSchema,
 } from '../types/schemas.js';
 
-const validateCreateTask: RequestHandler<never, never, ReqBodyCreateTask> = (
-  req,
-  _res,
-  next,
-) => {
+const validateCreateTask: RequestHandler<
+  { projectId: string },
+  never,
+  ReqBodyCreateTask
+> = (req, _res, next) => {
   try {
     ReqBodyCreateTaskSchema.parse(req.body);
     next();
