@@ -1,3 +1,4 @@
+import { Task } from '@prisma/client';
 import { RequestHandler } from 'express';
 
 import prisma from '../prisma/client.js';
@@ -11,6 +12,31 @@ export const createTask: RequestHandler<
 > = async (req, res, next) => {
   try {
     const { name, parentTaskId } = req.body;
+
+    if (parentTaskId) {
+      const parentTask = await prisma.task.findUniqueOrThrow({
+        where: {
+          id: parentTaskId,
+          project: {
+            user: {
+              id: req.userId,
+            },
+          },
+        },
+      });
+
+      if (parentTask.parentTaskId) {
+        throw new Error(
+          `Parent task can't be a child task, must be root-level`,
+        );
+      }
+
+      if (parentTask.projectId !== req.params.projectId) {
+        throw new Error(
+          `Parent task's projectId must be the same as req.params.projectId`,
+        );
+      }
+    }
 
     const newTask = await prisma.task.create({
       data: {
@@ -101,6 +127,32 @@ export const updateTask: RequestHandler<
 > = async (req, res, next) => {
   try {
     const { name, completed, projectId, parentTaskId } = req.body;
+    let parentTask: Task | undefined = undefined;
+
+    if (parentTaskId) {
+      parentTask = await prisma.task.findUniqueOrThrow({
+        where: {
+          id: parentTaskId,
+          project: {
+            user: {
+              id: req.userId,
+            },
+          },
+        },
+      });
+
+      if (parentTask.parentTaskId) {
+        throw new Error(
+          `Parent task can't be a child task, must be root-level`,
+        );
+      }
+
+      if (projectId && parentTask.projectId !== projectId) {
+        throw new Error(
+          `Parent task's projectId must be the same as req.body.projectId`,
+        );
+      }
+    }
 
     const updatedTask = await prisma.task.update({
       where: {
@@ -114,13 +166,20 @@ export const updateTask: RequestHandler<
       data: {
         name: name,
         completed: completed,
+        subTasks: {
+          updateMany: {
+            where: {},
+            data: {
+              completed,
+              projectId,
+            },
+          },
+        },
         project: projectId
-          ? {
-              connect: {
-                id: projectId,
-              },
-            }
-          : undefined,
+          ? { connect: { id: projectId } }
+          : parentTask
+            ? { connect: { id: parentTask.projectId } }
+            : undefined,
         parentTask: parentTaskId
           ? {
               connect: {
