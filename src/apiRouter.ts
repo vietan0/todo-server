@@ -9,6 +9,7 @@ import {
 } from './handlers/project.js';
 import {
   createTask,
+  deleteTask,
   getTaskById,
   getTasks,
   updateTask,
@@ -32,5 +33,6 @@ apiRouter.get('/project/:projectId/task', getTasks);
 apiRouter.get('/task/:taskId', getTaskById);
 apiRouter.post('/project/:projectId/task', validateCreateTask, createTask);
 apiRouter.patch('/task/:taskId', validateUpdateTask, updateTask);
+apiRouter.delete('/task/:taskId', deleteTask);
 
 export default apiRouter;

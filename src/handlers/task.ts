@@ -129,9 +129,38 @@ export const updateTask: RequestHandler<
             }
           : undefined,
       },
+      include: {
+        subTasks: true,
+      },
     });
 
     res.json({ status: 'success', data: updatedTask });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteTask: RequestHandler<{ taskId: string }, ResBody> = async (
+  req,
+  res,
+  next,
+) => {
+  try {
+    const deletedTask = await prisma.task.delete({
+      where: {
+        id: req.params.taskId,
+        project: {
+          user: {
+            id: req.userId,
+          },
+        },
+      },
+      include: {
+        subTasks: true,
+      },
+    });
+
+    res.json({ status: 'success', data: deletedTask });
   } catch (error) {
     next(error);
   }
