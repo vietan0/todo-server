@@ -19,7 +19,9 @@ morgan.token('body', (req: IncomingMessage & { body: object }) => {
   return JSON.stringify(req.body, null, 2);
 });
 
-app.use(morgan('dev'), morgan(':params \n:body '));
+process.env.NODE_ENV !== 'test' &&
+  app.use([morgan('dev'), morgan(':params \n:body ')]); // don't log while testing
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
