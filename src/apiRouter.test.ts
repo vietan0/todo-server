@@ -6,6 +6,8 @@ import app from './server.js';
 import { ResBody } from './types/express/ResBody.js';
 
 let token: string;
+const projectId = '057c17a4-c96c-40fb-8e3b-422865f1d0d2';
+const userId = 'da94b4b6-8234-4698-a493-c96433c61aa3';
 
 beforeAll(async () => {
   const signInRes = await request(app)
@@ -127,6 +129,128 @@ describe('CREATE projects', () => {
     expect(res.body).toEqual({
       status: 'error',
       message: 'Validation error: Required at "name"',
+      error: expect.any(Object),
+    });
+  });
+});
+
+describe('READ project', () => {
+  test('Get All - Success', async () => {
+    const res = await request(app)
+      .get('/api/project')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(200);
+
+    expect(res.body.data).toContainEqual({
+      id: expect.any(String),
+      name: expect.any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+      userId,
+      tasks: expect.any(Array),
+    });
+  });
+
+  test('Get By Id - Success', async () => {
+    const res = await request(app)
+      .get(`/api/project/${projectId}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(200);
+
+    expect(res.body).toStrictEqual({
+      status: 'success',
+      data: {
+        id: projectId,
+        name: expect.any(String),
+        createdAt: '2024-05-02T05:02:34.150Z',
+        updatedAt: expect.any(String),
+        userId,
+        tasks: expect.any(Array),
+      },
+    });
+  });
+
+  test('Get By Id - Non-Existent Id throws error', async () => {
+    const res = await request(app)
+      .get(`/api/project/${faker.string.uuid()}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(400);
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: 'No Project found',
+      error: expect.any(Object),
+    });
+  });
+
+  test('Get By Id - Invalid UUID throws error', async () => {
+    const res = await request(app)
+      .get(`/api/project/${faker.string.nanoid()}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(400);
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: expect.stringMatching('Error creating UUID'),
+      error: expect.any(Object),
+    });
+  });
+});
+
+describe('UPDATE project', () => {
+  test('Success - Rename', async () => {
+    const newName = faker.commerce.productName();
+
+    const res = await request(app)
+      .patch(`/api/project/${projectId}`)
+      .send({ name: newName })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(200);
+
+    expect(res.body).toMatchObject({
+      status: 'success',
+      data: {
+        id: projectId,
+        name: newName,
+        userId,
+      },
+    });
+  });
+
+  test('Unrecognized Key throws error', async () => {
+    const res = await request(app)
+      .patch(`/api/project/${projectId}`)
+      .send({ verb: faker.word.verb() })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(400);
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: expect.stringMatching('Unknown argument'),
+      error: {
+        name: 'PrismaClientValidationError',
+        clientVersion: expect.any(String),
+      },
+    });
+  });
+
+  test('Empty req.body throws error', async () => {
+    const res = await request(app)
+      .patch(`/api/project/${projectId}`)
+      .send()
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toStrictEqual(400);
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: "Request's body must not be empty",
       error: expect.any(Object),
     });
   });

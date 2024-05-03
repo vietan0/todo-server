@@ -85,6 +85,9 @@ export const updateProject: RequestHandler<
   ReqBodyUpdateProject
 > = async (req, res, next) => {
   try {
+    if (Object.keys(req.body).length === 0)
+      throw new Error("Request's body must not be empty");
+
     const updatedProject = await prisma.project.update({
       where: {
         id: req.params.projectId,
