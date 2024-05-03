@@ -20,9 +20,9 @@ beforeAll(async () => {
 describe('Unauthorized cases', () => {
   test('Missing Authorization header', async () => {
     const getProjectsRes = await request(app).get('/api/project');
-    expect(getProjectsRes.status).toEqual(401);
+    expect(getProjectsRes.status).toStrictEqual(401);
 
-    expect(getProjectsRes.body).toEqual({
+    expect(getProjectsRes.body).toStrictEqual({
       status: 'error',
       message: "Authorization header doesn't exist",
     });
@@ -33,9 +33,9 @@ describe('Unauthorized cases', () => {
       .get('/api/project')
       .set('Authorization', `Bearer abc`);
 
-    expect(getProjectsRes.status).toEqual(400);
+    expect(getProjectsRes.status).toStrictEqual(400);
 
-    expect(getProjectsRes.body).toEqual({
+    expect(getProjectsRes.body).toStrictEqual({
       status: 'error',
       error: {
         message: 'jwt malformed',
@@ -46,7 +46,7 @@ describe('Unauthorized cases', () => {
   });
 });
 
-describe('CREATE projects', () => {
+describe('CREATE project', () => {
   test('Success', async () => {
     const name = faker.commerce.productName();
 
@@ -57,7 +57,7 @@ describe('CREATE projects', () => {
       })
       .set('Authorization', `Bearer ${token}`);
 
-    expect(res.status).toEqual(200);
+    expect(res.status).toStrictEqual(200);
 
     expect(res.body).toMatchObject({
       status: 'success',
@@ -90,13 +90,11 @@ describe('CREATE projects', () => {
         updatedAt: expect.not.stringMatching(reqBody.createdAt),
         userId: expect.not.stringMatching(reqBody.userId),
         tasks: expect.any(Array),
-        verb: undefined,
-        cat: undefined,
       },
     };
 
-    expect(res.status).toEqual(200);
-    expect(res.body).toEqual(resBody);
+    expect(res.status).toStrictEqual(200);
+    expect(res.body).toStrictEqual(resBody);
   });
 
   test('Name too long throws error', async () => {
@@ -108,9 +106,9 @@ describe('CREATE projects', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(name.length).toBeGreaterThan(255);
-    expect(res.status).toEqual(400);
+    expect(res.status).toStrictEqual(400);
 
-    expect(res.body).toEqual({
+    expect(res.body).toStrictEqual({
       status: 'error',
       message:
         'Validation error: String must contain at most 255 character(s) at "name"',
@@ -124,9 +122,9 @@ describe('CREATE projects', () => {
       .send()
       .set('Authorization', `Bearer ${token}`);
 
-    expect(res.status).toEqual(400);
+    expect(res.status).toStrictEqual(400);
 
-    expect(res.body).toEqual({
+    expect(res.body).toStrictEqual({
       status: 'error',
       message: 'Validation error: Required at "name"',
       error: expect.any(Object),
