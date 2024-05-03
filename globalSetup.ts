@@ -10,8 +10,8 @@ export default async function setup({ provide }: GlobalSetupContext) {
 
   try {
     const { stdout, stderr } = await execPromise('npx prisma db seed');
-    console.log('stdout :>> ', stdout);
-    console.log('stderr :>> ', stderr);
+    stdout && console.log('stdout :>> ', stdout);
+    stderr && console.log('stderr :>> ', stderr);
   } catch (error) {
     console.error(error);
   }

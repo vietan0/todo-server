@@ -1,26 +1,26 @@
+import { faker } from '@faker-js/faker';
 import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 
-import resetDb from './prisma/resetDb.js';
 import app from './server.js';
 import { ReqBodyCreateUser } from './types/schemas.js';
 
 beforeAll(async () => {
-  await resetDb();
   vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 afterAll(async () => {
-  await resetDb();
   vi.restoreAllMocks();
 });
 
 const authPayload: ReqBodyCreateUser = {
-  email: 'vitest@gmail.com',
-  password: 'vitest',
+  email: faker.internet.email(),
+  password: 'postman',
 };
 
-async function sendSignUp(payload: Partial<ReqBodyCreateUser> = authPayload) {
+export async function sendSignUp(
+  payload: Partial<ReqBodyCreateUser> = authPayload,
+) {
   return await request(app).post('/auth/signup').send(payload);
 }
 
@@ -98,7 +98,6 @@ describe('Sign Up', () => {
 
 describe('Sign In', () => {
   test('success', async () => {
-    await sendSignUp();
     const res = await request(app).post('/auth/signin').send(authPayload);
     expect(res.status).toEqual(200);
 
@@ -113,7 +112,7 @@ describe('Sign In', () => {
   test(`email doesn't exist`, async () => {
     const res = await request(app)
       .post('/auth/signin')
-      .send({ ...authPayload, email: 'non-existing@gmail.com' });
+      .send({ ...authPayload, email: faker.internet.exampleEmail() });
 
     expect(res.status).toEqual(400);
 
