@@ -1,13 +1,9 @@
 import { exec } from 'node:child_process';
 import util from 'node:util';
 
-import type { GlobalSetupContext } from 'vitest/node';
-
 const execPromise = util.promisify(exec);
 
-export default async function setup({ provide }: GlobalSetupContext) {
-  provide('wsPort', 3000);
-
+export default async function setup() {
   try {
     const { stdout, stderr } = await execPromise('npx prisma db seed');
     stdout && console.log('stdout :>> ', stdout);
