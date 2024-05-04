@@ -1,9 +1,6 @@
-import { faker } from '@faker-js/faker';
-import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 
-import app from './server.js';
-import { ReqBodyCreateUser } from './types/schemas.js';
+import { authPayload, sendSignUp } from '../test/authHelpers.js';
 
 beforeAll(async () => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -12,17 +9,6 @@ beforeAll(async () => {
 afterAll(async () => {
   vi.restoreAllMocks();
 });
-
-const authPayload: ReqBodyCreateUser = {
-  email: faker.internet.email(),
-  password: 'postman',
-};
-
-export async function sendSignUp(
-  payload: Partial<ReqBodyCreateUser> = authPayload,
-) {
-  return await request(app).post('/auth/signup').send(payload);
-}
 
 describe('Sign Up', () => {
   test('successful', async () => {
@@ -93,53 +79,5 @@ describe('Sign Up', () => {
     expect(res.status).toEqual(400);
     expect(res.body).toHaveProperty('status', 'error');
     expect(res.body.message).toMatch('contain at least 4 character(s)');
-  });
-});
-
-describe('Sign In', () => {
-  test('success', async () => {
-    const res = await request(app).post('/auth/signin').send(authPayload);
-    expect(res.status).toEqual(200);
-
-    expect(res.body).toEqual({
-      status: 'success',
-      data: {
-        token: expect.any(String),
-      },
-    });
-  });
-
-  test(`email doesn't exist`, async () => {
-    const res = await request(app)
-      .post('/auth/signin')
-      .send({ ...authPayload, email: faker.internet.exampleEmail() });
-
-    expect(res.status).toEqual(400);
-
-    expect(res.body).toEqual({
-      status: 'error',
-      message: 'No User found',
-      error: {
-        name: 'NotFoundError',
-        code: 'P2025',
-        clientVersion: expect.any(String),
-      },
-    });
-  });
-
-  test('incorrect password', async () => {
-    await sendSignUp();
-
-    const res = await request(app)
-      .post('/auth/signin')
-      .send({ ...authPayload, password: 'incorrect_password' });
-
-    expect(res.status).toEqual(400);
-
-    expect(res.body).toEqual({
-      status: 'error',
-      message: 'Password is incorrect',
-      error: {},
-    });
   });
 });

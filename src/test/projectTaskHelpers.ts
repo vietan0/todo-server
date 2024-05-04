@@ -32,19 +32,19 @@ export const testIds = {
           id: 'acdd0c13-ad06-4596-8026-d62fc7e25b02',
           tasks: [
             {
-              id: '5bf97843-4e24-46c6-ba88-1f4da98d7b95',
+              id: '5bf97843-4e24-46c6-ba88-1f4da98d7b95', // is child
               parentTaskId: '92d2adc2-d785-4d99-9c65-8ef126feb818',
             },
             {
-              id: '837a9979-a06a-4587-933a-cb1310283e22',
-              parentTaskId: '9d44af76-3abf-491d-9087-cc68ecc6bcc0',
-            },
-            {
-              id: '92d2adc2-d785-4d99-9c65-8ef126feb818',
+              id: '92d2adc2-d785-4d99-9c65-8ef126feb818', // is parent
               parentTaskId: null,
             },
             {
-              id: '9d44af76-3abf-491d-9087-cc68ecc6bcc0',
+              id: '9d44af76-3abf-491d-9087-cc68ecc6bcc0', // is parent 2
+              parentTaskId: null,
+            },
+            {
+              id: '9e33670d-157f-4ca7-88dc-4ade6d18db45', // is nothing
               parentTaskId: null,
             },
           ],

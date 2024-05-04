@@ -13,5 +13,10 @@ export default defineConfig({
         },
       },
     ],
+    poolOptions: {
+      threads: {
+        singleThread: true, // default is false
+      },
+    },
   },
 });

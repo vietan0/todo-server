@@ -126,10 +126,23 @@ export const updateTask: RequestHandler<
   ReqBodyUpdateTask
 > = async (req, res, next) => {
   try {
+    if (Object.keys(req.body).length === 0) {
+      throw new Error("Request's body must not be empty");
+    }
+
     const { name, completed, projectId, parentTaskId } = req.body;
     let parentTask: Task | undefined = undefined;
 
     if (parentTaskId) {
+      if (parentTaskId === req.params.taskId)
+        throw new Error("Task can't be its own parent");
+
+      if (projectId)
+        throw new Error(
+          "Can't pass both projectId and parentTaskId in one request",
+        );
+
+      // throw if parent task not found
       parentTask = await prisma.task.findUniqueOrThrow({
         where: {
           id: parentTaskId,
@@ -141,17 +154,24 @@ export const updateTask: RequestHandler<
         },
       });
 
-      if (parentTask.parentTaskId) {
-        throw new Error(
-          `Parent task can't be a child task, must be root-level`,
-        );
-      }
+      // throw if task being moved and parent aren't in the same project
+      const targetTask = await prisma.task.findUniqueOrThrow({
+        where: {
+          id: req.params.taskId,
+          project: {
+            id: parentTask.projectId,
+          },
+        },
+        include: {
+          subTasks: true,
+        },
+      });
 
-      if (projectId && parentTask.projectId !== projectId) {
-        throw new Error(
-          `Parent task's projectId must be the same as req.body.projectId`,
-        );
-      }
+      if (targetTask.subTasks.length > 0)
+        throw new Error(`Target task can't be a parent`);
+
+      if (parentTask.parentTaskId)
+        throw new Error(`Parent task can't be a child`);
     }
 
     const updatedTask = await prisma.task.update({
