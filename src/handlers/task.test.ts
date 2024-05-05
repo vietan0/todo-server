@@ -109,7 +109,7 @@ describe('CREATE task', () => {
     });
   });
 
-  test('Create sub-task - parentTaskId is already a child', async () => {
+  test('Create sub-task - Throw error if `parentTaskId` is a child', async () => {
     const name = `${faker.word.verb()} the ${faker.word.noun()}`;
 
     const res = await request(app)
@@ -227,7 +227,7 @@ describe('UPDATE task', () => {
     expect(res.body.data.subTasks[1].completed).toBe(true);
   });
 
-  test('Change `parentTaskId` - Throw error if parentTaskId is in another project', async () => {
+  test('Change `parentTaskId` - Throw error if `parentTaskId` is in another project', async () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsNothing}`)
       .send({ parentTaskId: taskInAnotherProject })
@@ -242,7 +242,7 @@ describe('UPDATE task', () => {
     });
   });
 
-  test('Change `parentTaskId` - Throw error if parentTaskId is the same as :taskId', async () => {
+  test('Change `parentTaskId` - Throw error if `parentTaskId` is the same as `:taskId`', async () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent}`)
       .send({ parentTaskId: taskIsParent })
@@ -256,7 +256,7 @@ describe('UPDATE task', () => {
     });
   });
 
-  test('Change `parentTaskId` - Throw error if :taskId is a parent', async () => {
+  test('Change `parentTaskId` - Throw error if `:taskId` is a parent', async () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent}`)
       .send({ parentTaskId: taskIsNothing })
@@ -321,7 +321,7 @@ describe('UPDATE task', () => {
     });
   });
 
-  test('Change project - all subtasks should follow', async () => {
+  test('Change `project` - all subtasks should follow', async () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent2}`)
       .send({ projectId: newProjectId })

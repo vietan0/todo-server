@@ -150,7 +150,7 @@ describe('READ project', () => {
 
   test('Get By Id - Success', async () => {
     const res = await request(app)
-      .get(`/api/project/${testIds.user[0].projects[0].id}`)
+      .get(`/api/project/${projectId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toStrictEqual(200);

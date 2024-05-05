@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
-import setup from './globalSetup.js';
+import setup from './src/test/globalSetup.js';
 
 export default defineConfig({
   test: {
-    globalSetup: ['./globalSetup.ts'],
+    globalSetup: ['./src/test/globalSetup.ts'],
     reporters: [
       'default',
       {
@@ -17,6 +17,10 @@ export default defineConfig({
       threads: {
         singleThread: true, // default is false
       },
+    },
+    coverage: {
+      provider: 'istanbul',
+      exclude: [...configDefaults.coverage.exclude!, '**/{ignore,test}'],
     },
   },
 });
