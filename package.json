@@ -10,6 +10,7 @@
     "seed": "psql -qtf prisma/dump.sql"
   },
   "scripts": {
+    "build": "tsc",
     "check": "npm-run-all -p type lint prettier pretpkg test:once",
     "coverage": "vitest run --coverage",
     "dev": "npm-run-all -p dev-server postman studio",
