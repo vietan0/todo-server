@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { Response } from 'express';
 import { IncomingMessage } from 'http';
 import morgan from 'morgan';
@@ -22,6 +23,7 @@ morgan.token('body', (req: IncomingMessage & { body: object }) => {
 process.env.NODE_ENV !== 'test' &&
   app.use([morgan('dev'), morgan(':params \n:body ')]); // don't log while testing
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
