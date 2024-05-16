@@ -17,12 +17,9 @@ test('success', async () => {
   const res = await request(app).post('/auth/signin').send(authPayload);
   expect(res.status).toEqual(200);
 
-  expect(res.body).toEqual({
-    status: 'success',
-    data: {
-      token: expect.any(String),
-    },
-  });
+  expect(res.body).toEqual({ status: 'success' });
+  expect(res.headers['set-cookie'][0]).toContain('token=');
+  expect(res.headers['set-cookie'][0]).toContain('HttpOnly');
 });
 
 test(`email doesn't exist`, async () => {

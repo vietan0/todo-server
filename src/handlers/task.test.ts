@@ -20,7 +20,7 @@ beforeAll(async () => {
     .post('/auth/signin')
     .send({ email: 'postman@gmail.com', password: 'postman' });
 
-  token = signInRes.body.data.token;
+  token = signInRes.headers['set-cookie'][0].split('token=')[1].split(';')[0];
 });
 
 describe('CREATE task', () => {
@@ -30,7 +30,7 @@ describe('CREATE task', () => {
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
       .send({ name })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -56,7 +56,7 @@ describe('CREATE task', () => {
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
       .send(reqBody)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     const resBody: ResBody = {
       status: 'success',
@@ -80,7 +80,7 @@ describe('CREATE task', () => {
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
       .send()
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -97,7 +97,7 @@ describe('CREATE task', () => {
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
       .send({ name, parentTaskId: taskIsParent })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -115,7 +115,7 @@ describe('CREATE task', () => {
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
       .send({ name, parentTaskId: taskIsChild })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -131,7 +131,7 @@ describe('READ task', () => {
   test('Get All - Success', async () => {
     const res = await request(app)
       .get(`/api/project/${projectId}/task`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -150,7 +150,7 @@ describe('READ task', () => {
   test('Get By Id - Success', async () => {
     const res = await request(app)
       .get(`/api/task/${taskIsChild}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -167,7 +167,7 @@ describe('READ task', () => {
   test('Get By Id - Non-existent Id throws error', async () => {
     const res = await request(app)
       .get(`/api/task/${faker.string.uuid()}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -181,7 +181,7 @@ describe('READ task', () => {
   test('Get By Id - Invalid UUID throws error', async () => {
     const res = await request(app)
       .get(`/api/task/${faker.string.nanoid()}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -200,7 +200,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent}`)
       .send({ name: newName })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -218,7 +218,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent}`)
       .send({ completed: true })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -231,7 +231,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsNothing}`)
       .send({ parentTaskId: taskInAnotherProject })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -246,7 +246,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent}`)
       .send({ parentTaskId: taskIsParent })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -260,7 +260,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent}`)
       .send({ parentTaskId: taskIsNothing })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -275,7 +275,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsNothing}`)
       .send({ parentTaskId: taskIsChild })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -293,7 +293,7 @@ describe('UPDATE task', () => {
         projectId: newProjectId,
         parentTaskId: taskIsParent,
       })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -308,7 +308,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsNothing}`)
       .send({ parentTaskId: taskIsParent })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -325,7 +325,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsParent2}`)
       .send({ projectId: newProjectId })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
     expect(res.body.data.projectId).toStrictEqual(newProjectId);
@@ -337,7 +337,7 @@ describe('UPDATE task', () => {
     const res = await request(app)
       .patch(`/api/task/${taskIsNothing}`)
       .send()
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -353,7 +353,7 @@ describe('DELETE task', () => {
   test('All subtasks should be deleted too', async () => {
     const delParentTaskRes = await request(app)
       .delete(`/api/task/${taskIsParent}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(delParentTaskRes.status).toStrictEqual(200);
 
@@ -367,7 +367,7 @@ describe('DELETE task', () => {
 
     const getSubtaskRes = await request(app)
       .get(`/api/task/${taskIsNothing}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(getSubtaskRes.status).toStrictEqual(400);
 

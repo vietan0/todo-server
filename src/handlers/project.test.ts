@@ -16,24 +16,24 @@ beforeAll(async () => {
     .post('/auth/signin')
     .send({ email: 'postman@gmail.com', password: 'postman' });
 
-  token = signInRes.body.data.token;
+  token = signInRes.headers['set-cookie'][0].split('token=')[1].split(';')[0];
 });
 
 describe('Unauthorized cases', () => {
-  test('Missing Authorization header', async () => {
+  test('Missing Token header', async () => {
     const res = await request(app).get('/api/project');
     expect(res.status).toStrictEqual(401);
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Authorization header doesn't exist",
+      message: "Token doesn't exist",
     });
   });
 
   test('Invalid Bearer token', async () => {
     const res = await request(app)
       .get('/api/project')
-      .set('Authorization', `Bearer abc`);
+      .set('Cookie', `token=abc`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -57,7 +57,7 @@ describe('CREATE project', () => {
       .send({
         name,
       })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
     expect(res.body).toMatchObject({ status: 'success', data: { name } });
@@ -77,7 +77,7 @@ describe('CREATE project', () => {
     const res = await request(app)
       .post('/api/project')
       .send(reqBody)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     const resBody: ResBody = {
       status: 'success',
@@ -101,7 +101,7 @@ describe('CREATE project', () => {
     const res = await request(app)
       .post('/api/project')
       .send({ name })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(name.length).toBeGreaterThan(255);
     expect(res.status).toStrictEqual(400);
@@ -118,7 +118,7 @@ describe('CREATE project', () => {
     const res = await request(app)
       .post('/api/project')
       .send()
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -134,7 +134,7 @@ describe('READ project', () => {
   test('Get All - Success', async () => {
     const res = await request(app)
       .get('/api/project')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -151,7 +151,7 @@ describe('READ project', () => {
   test('Get By Id - Success', async () => {
     const res = await request(app)
       .get(`/api/project/${projectId}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -171,7 +171,7 @@ describe('READ project', () => {
   test('Get By Id - Non-existent Id throws error', async () => {
     const res = await request(app)
       .get(`/api/project/${faker.string.uuid()}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -185,7 +185,7 @@ describe('READ project', () => {
   test('Get By Id - Invalid UUID throws error', async () => {
     const res = await request(app)
       .get(`/api/project/${faker.string.nanoid()}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -204,7 +204,7 @@ describe('UPDATE project', () => {
     const res = await request(app)
       .patch(`/api/project/${projectId}`)
       .send({ name: newName })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
@@ -222,7 +222,7 @@ describe('UPDATE project', () => {
     const res = await request(app)
       .patch(`/api/project/${projectId}`)
       .send({ verb: faker.word.verb() })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -240,7 +240,7 @@ describe('UPDATE project', () => {
     const res = await request(app)
       .patch(`/api/project/${projectId}`)
       .send()
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 
@@ -256,7 +256,7 @@ describe('DELETE project', () => {
   test('All tasks inside should be deleted', async () => {
     const delProjectRes = await request(app)
       .delete(`/api/project/${projectId}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(delProjectRes.status).toStrictEqual(200);
 
@@ -270,7 +270,7 @@ describe('DELETE project', () => {
 
     const getTaskInsideRes = await request(app)
       .get(`/api/task/${taskId}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(getTaskInsideRes.status).toStrictEqual(400);
 
@@ -283,7 +283,7 @@ describe('DELETE project', () => {
   test('Non-existent id throws error', async () => {
     const res = await request(app)
       .delete(`/api/project/${faker.string.uuid()}`)
-      .set('Authorization', `Bearer ${token}`);
+      .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
 

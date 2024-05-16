@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Response } from 'express';
 import { IncomingMessage } from 'http';
@@ -20,10 +21,24 @@ morgan.token('body', (req: IncomingMessage & { body: object }) => {
   return JSON.stringify(req.body, null, 2);
 });
 
-process.env.NODE_ENV !== 'test' &&
-  app.use([morgan('dev'), morgan(':params \n:body ')]); // don't log while testing
+morgan.token('cookies', (req: IncomingMessage & { cookies: object }) => {
+  return JSON.stringify(req.cookies, null, 2);
+});
 
-app.use(cors());
+process.env.NODE_ENV !== 'test' &&
+  app.use([
+    morgan('dev'),
+    morgan('params: :params \nbody: :body \ncookies: :cookies'),
+  ]); // don't log while testing
+
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -14,13 +14,9 @@ describe('Sign Up', () => {
   test('successful', async () => {
     const res = await sendSignUp();
     expect(res.status).toEqual(200);
-
-    expect(res.body).toEqual({
-      status: 'success',
-      data: {
-        token: expect.any(String),
-      },
-    });
+    expect(res.body).toEqual({ status: 'success' });
+    expect(res.headers['set-cookie'][0]).toContain('token=');
+    expect(res.headers['set-cookie'][0]).toContain('HttpOnly');
   });
 
   test('email already exists', async () => {

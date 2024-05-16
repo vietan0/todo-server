@@ -20,7 +20,14 @@ const signIn: RequestHandler<
 
     await comparePasswords(req.body.password, existingUser.password);
     const token = createToken(existingUser.id);
-    res.json({ status: 'success', data: { token } });
+
+    const options = {
+      maxAge: 1000 * 60 * 60 * 24, // expire after 24h
+      httpOnly: true, // Cookie will not be exposed to client side code
+      secure: true, // use with HTTPS only
+    };
+
+    res.cookie('token', token, options).json({ status: 'success' });
   } catch (error) {
     next(error);
   }

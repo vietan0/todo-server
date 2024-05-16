@@ -22,7 +22,14 @@ const signUp: RequestHandler<
     });
 
     const token = createToken(newUser.id);
-    res.json({ status: 'success', data: { token } });
+
+    const options = {
+      maxAge: 1000 * 60 * 60 * 24, // expire after 24h
+      httpOnly: true, // Cookie will not be exposed to client side code
+      secure: true, // use with HTTPS only
+    };
+
+    res.cookie('token', token, options).json({ status: 'success' });
   } catch (error) {
     next(error);
   }
