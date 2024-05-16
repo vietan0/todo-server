@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import getUser from './handlers/getUser.js';
 import {
   createProject,
   deleteProject,
@@ -21,6 +22,7 @@ import validateUpdateTask from './middlewares/validateUpdateTask.js';
 
 const apiRouter = Router();
 
+apiRouter.get('/user', getUser);
 // project CRUD
 apiRouter.get('/project', getProjects);
 apiRouter.get('/project/:projectId', getProjectById);

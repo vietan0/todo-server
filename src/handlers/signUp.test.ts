@@ -14,7 +14,12 @@ describe('Sign Up', () => {
   test('successful', async () => {
     const res = await sendSignUp();
     expect(res.status).toEqual(200);
-    expect(res.body).toEqual({ status: 'success' });
+    expect(res.body.status).toEqual('success');
+
+    expect(res.body.data).toMatchObject({
+      id: expect.any(String),
+    });
+
     expect(res.headers['set-cookie'][0]).toContain('token=');
     expect(res.headers['set-cookie'][0]).toContain('HttpOnly');
   });

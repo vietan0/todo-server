@@ -16,8 +16,12 @@ afterAll(async () => {
 test('success', async () => {
   const res = await request(app).post('/auth/signin').send(authPayload);
   expect(res.status).toEqual(200);
+  expect(res.body.status).toEqual('success');
 
-  expect(res.body).toEqual({ status: 'success' });
+  expect(res.body.data).toMatchObject({
+    id: expect.any(String),
+  });
+
   expect(res.headers['set-cookie'][0]).toContain('token=');
   expect(res.headers['set-cookie'][0]).toContain('HttpOnly');
 });
