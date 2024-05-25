@@ -23,7 +23,11 @@ export const createProject: RequestHandler<
         },
       },
       include: {
-        tasks: true,
+        tasks: {
+          include: {
+            subTasks: true,
+          },
+        },
       },
     });
 
@@ -46,7 +50,11 @@ export const getProjects: RequestHandler<never, ResBody> = async (
         },
       },
       include: {
-        tasks: true,
+        tasks: {
+          include: {
+            subTasks: true,
+          },
+        },
       },
     });
 
@@ -69,7 +77,11 @@ export const getProjectById: RequestHandler<
         },
       },
       include: {
-        tasks: true,
+        tasks: {
+          include: {
+            subTasks: true,
+          },
+        },
       },
     });
 
@@ -97,7 +109,11 @@ export const updateProject: RequestHandler<
       },
       data: req.body,
       include: {
-        tasks: true,
+        tasks: {
+          include: {
+            subTasks: true,
+          },
+        },
       },
     });
 
@@ -120,7 +136,11 @@ export const deleteProject: RequestHandler<
         },
       },
       include: {
-        tasks: true,
+        tasks: {
+          include: {
+            subTasks: true,
+          },
+        },
       },
     });
 

@@ -22,7 +22,7 @@ export type ReqBodyCreateProject = Pick<
 >;
 export const ReqBodyCreateProjectSchema: toZod<ReqBodyCreateProject> = z.object(
   {
-    name: z.string().max(255),
+    name: z.string().trim().min(1, { message: 'Required' }).max(255),
   },
 );
 export type ReqBodyUpdateProject = ExtractPrimitive<
