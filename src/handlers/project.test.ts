@@ -144,7 +144,6 @@ describe('READ project', () => {
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
       userId: testIds.user[0].id,
-      tasks: expect.any(Array),
     });
   });
 

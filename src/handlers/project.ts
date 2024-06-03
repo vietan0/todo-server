@@ -49,13 +49,6 @@ export const getProjects: RequestHandler<never, ResBody> = async (
           id: req.userId,
         },
       },
-      include: {
-        tasks: {
-          include: {
-            subTasks: true,
-          },
-        },
-      },
     });
 
     res.json({ status: 'success', data: projects });
