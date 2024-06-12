@@ -14,7 +14,7 @@ export type ReqBodyCreateUser = Pick<
 >;
 export const ReqBodyCreateUserSchema: toZod<ReqBodyCreateUser> = z.object({
   email: z.string().email().max(255),
-  password: z.string().min(4),
+  password: z.string().trim().min(4).max(255),
 });
 export type ReqBodyCreateProject = Pick<
   Prisma.ProjectUncheckedCreateInput,
@@ -22,7 +22,7 @@ export type ReqBodyCreateProject = Pick<
 >;
 export const ReqBodyCreateProjectSchema: toZod<ReqBodyCreateProject> = z.object(
   {
-    name: z.string().trim().min(1, { message: 'Required' }).max(255),
+    name: z.string().trim().min(1).max(255),
   },
 );
 export type ReqBodyUpdateProject = ExtractPrimitive<
@@ -30,7 +30,7 @@ export type ReqBodyUpdateProject = ExtractPrimitive<
 >;
 export const ReqBodyUpdateProjectSchema: toZod<ReqBodyUpdateProject> = z.object(
   {
-    name: z.string().max(255).optional(),
+    name: z.string().trim().min(1).max(255).optional(),
   },
 );
 export type ReqBodyCreateTask = Pick<
@@ -38,7 +38,7 @@ export type ReqBodyCreateTask = Pick<
   'name' | 'parentTaskId'
 >;
 export const ReqBodyCreateTaskSchema: toZod<ReqBodyCreateTask> = z.object({
-  name: z.string().max(255),
+  name: z.string().trim().min(1).max(255),
   parentTaskId: z.string().uuid().optional(),
 });
 export type ReqBodyUpdateTask = ExtractPrimitive<
@@ -48,7 +48,7 @@ export type ReqBodyUpdateTask = ExtractPrimitive<
   >
 >;
 export const ReqBodyUpdateTaskSchema: toZod<ReqBodyUpdateTask> = z.object({
-  name: z.string().max(255).optional(),
+  name: z.string().trim().min(1).max(255).optional(),
   completed: z.boolean().optional(),
   projectId: z.string().uuid().optional(),
   parentTaskId: z.string().uuid().optional(),
