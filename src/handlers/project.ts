@@ -6,6 +6,7 @@ import {
   ReqBodyCreateProject,
   ReqBodyUpdateProject,
 } from '../types/schemas.js';
+import { genNewProjectRank } from '../utils/lexorank/projectRank.js';
 
 export const createProject: RequestHandler<
   never,
@@ -13,9 +14,18 @@ export const createProject: RequestHandler<
   ReqBodyCreateProject
 > = async (req, res, next) => {
   try {
+    const projects = await prisma.project.findMany({
+      where: {
+        user: {
+          id: req.userId,
+        },
+      },
+    });
+
     const newProject = await prisma.project.create({
       data: {
         name: req.body.name,
+        lexorank: genNewProjectRank(projects),
         user: {
           connect: {
             id: req.userId,

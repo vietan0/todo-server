@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import apiRouter from './apiRouter.js';
 import authRouter from './authRouter.js';
+import fillRankRouter from './fillRankRouter.js';
 import errHandler from './handlers/errHandler.js';
 import auth from './middlewares/auth.js';
 import { ResBody } from './types/express/ResBody.js';
@@ -48,6 +49,7 @@ app.get('/', (_req, res: Response<ResBody>) => {
 
 app.use('/api', auth, apiRouter);
 app.use('/auth', authRouter);
+app.use('/dev/fill-rank', fillRankRouter);
 app.use(errHandler);
 
 export default app;

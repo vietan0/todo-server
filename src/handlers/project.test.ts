@@ -84,6 +84,7 @@ describe('CREATE project', () => {
       data: {
         id: expect.not.stringMatching(reqBody.id),
         name: reqBody.name,
+        lexorank: expect.any(String),
         createdAt: expect.not.stringMatching(reqBody.createdAt),
         updatedAt: expect.not.stringMatching(reqBody.createdAt),
         userId: expect.not.stringMatching(reqBody.userId),
@@ -141,6 +142,7 @@ describe('READ project', () => {
     expect(res.body.data).toContainEqual({
       id: expect.any(String),
       name: expect.any(String),
+      lexorank: expect.any(String),
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
       userId: testIds.user[0].id,
@@ -159,7 +161,8 @@ describe('READ project', () => {
       data: {
         id: projectId,
         name: expect.any(String),
-        createdAt: '2024-05-02T05:02:34.150Z',
+        lexorank: expect.any(String),
+        createdAt: '2024-05-02T05:01:17.880Z',
         updatedAt: expect.any(String),
         userId: userId,
         tasks: expect.any(Array),
