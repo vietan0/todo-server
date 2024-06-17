@@ -4,6 +4,7 @@ import { RequestHandler } from 'express';
 import prisma from '../prisma/client.js';
 import { ResBody } from '../types/express/ResBody.js';
 import { ReqBodyCreateTask, ReqBodyUpdateTask } from '../types/schemas.js';
+import { genNewTaskRank } from '../utils/lexorank/taskRank.js';
 
 export const createTask: RequestHandler<
   { projectId: string },
@@ -38,9 +39,21 @@ export const createTask: RequestHandler<
       }
     }
 
+    const tasks = await prisma.task.findMany({
+      where: {
+        project: {
+          id: req.params.projectId,
+          user: {
+            id: req.userId,
+          },
+        },
+      },
+    });
+
     const newTask = await prisma.task.create({
       data: {
         name: name,
+        lexorank: genNewTaskRank(tasks, parentTaskId),
         project: {
           connect: {
             id: req.params.projectId,

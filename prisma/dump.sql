@@ -52,7 +52,8 @@ CREATE TABLE public."Project" (
     name character varying(255) NOT NULL,
     "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "updatedAt" timestamp(3) without time zone NOT NULL,
-    "userId" uuid NOT NULL
+    "userId" uuid NOT NULL,
+    lexorank text
 );
 
 
@@ -69,7 +70,8 @@ CREATE TABLE public."Task" (
     "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "updatedAt" timestamp(3) without time zone NOT NULL,
     "projectId" uuid NOT NULL,
-    "parentTaskId" uuid
+    "parentTaskId" uuid,
+    lexorank text
 );
 
 
@@ -112,10 +114,9 @@ ALTER TABLE public._prisma_migrations OWNER TO postgres;
 -- Data for Name: Project; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Project" (id, name, "createdAt", "updatedAt", "userId") FROM stdin;
-65f38cc9-13e3-49b4-92eb-ad01aedd94ad	Practical Frozen Car	2024-05-02 05:01:17.88	2024-05-02 05:01:17.88	224501b9-11b6-4bdc-9953-cfc5ef5fdfd4
-057c17a4-c96c-40fb-8e3b-422865f1d0d2	Practical Cotton Cheese	2024-05-02 05:02:34.15	2024-05-02 05:02:34.15	da94b4b6-8234-4698-a493-c96433c61aa3
-acdd0c13-ad06-4596-8026-d62fc7e25b02	Fantastic Cotton Chips	2024-05-02 05:02:34.844	2024-05-02 05:02:34.844	da94b4b6-8234-4698-a493-c96433c61aa3
+COPY public."Project" (id, name, "createdAt", "updatedAt", "userId", lexorank) FROM stdin;
+acdd0c13-ad06-4596-8026-d62fc7e25b02	Fantastic Cotton Chips	2024-05-02 05:02:34.844	2024-06-16 05:46:17.294	da94b4b6-8234-4698-a493-c96433c61aa3	0|i0000v:
+65f38cc9-13e3-49b4-92eb-ad01aedd94ad	Practical Frozen Car	2024-05-02 05:01:17.88	2024-06-16 05:54:38.39	da94b4b6-8234-4698-a493-c96433c61aa3	0|hzzzzz:
 \.
 
 
@@ -123,24 +124,19 @@ acdd0c13-ad06-4596-8026-d62fc7e25b02	Fantastic Cotton Chips	2024-05-02 05:02:34.
 -- Data for Name: Task; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Task" (id, name, completed, "createdAt", "updatedAt", "projectId", "parentTaskId") FROM stdin;
-8a59655d-ea8a-4323-a877-1a5b8084f284	compress the port	f	2024-05-02 05:01:32.484	2024-05-02 05:01:32.484	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	\N
-bec8c750-95f8-46c2-a6a3-b9aa456a8982	bypass the driver	f	2024-05-02 05:01:43.842	2024-05-02 05:01:43.842	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	8a59655d-ea8a-4323-a877-1a5b8084f284
-ac2882fc-648f-4c6c-a3da-c821c6c7a53a	copy the panel	f	2024-05-02 05:01:45.798	2024-05-02 05:01:45.798	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	8a59655d-ea8a-4323-a877-1a5b8084f284
-9d44af76-3abf-491d-9087-cc68ecc6bcc0	index the feed	f	2024-05-02 05:02:57.352	2024-05-02 05:02:57.352	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N
-837a9979-a06a-4587-933a-cb1310283e22	navigate the protocol	f	2024-05-02 05:02:59.055	2024-05-02 05:02:59.055	acdd0c13-ad06-4596-8026-d62fc7e25b02	9d44af76-3abf-491d-9087-cc68ecc6bcc0
-77355ead-5d66-425d-806e-a2fbd5cb770e	bypass the monitor	f	2024-05-02 05:04:07.61	2024-05-02 05:04:07.61	057c17a4-c96c-40fb-8e3b-422865f1d0d2	\N
-4f1cbf6f-20b2-4a32-b4d3-dc5ba7d02698	quantify the microchip	f	2024-05-02 05:04:12.717	2024-05-02 05:04:12.717	057c17a4-c96c-40fb-8e3b-422865f1d0d2	\N
-e8865efd-54c1-4fe2-9520-af76d0c5bb78	parse the transmitter	f	2024-05-02 05:04:15.912	2024-05-02 05:04:15.912	057c17a4-c96c-40fb-8e3b-422865f1d0d2	4f1cbf6f-20b2-4a32-b4d3-dc5ba7d02698
-8ada3d13-438c-4d50-9d7f-f2cef95bb566	reboot the transmitter	f	2024-05-02 05:04:19.554	2024-05-02 05:04:19.554	057c17a4-c96c-40fb-8e3b-422865f1d0d2	4f1cbf6f-20b2-4a32-b4d3-dc5ba7d02698
-8e2f61fa-a0f4-45a4-9dd1-27d7dcba3642	reboot the matrix	f	2024-05-02 05:04:11.687	2024-05-02 05:06:10.655	057c17a4-c96c-40fb-8e3b-422865f1d0d2	77355ead-5d66-425d-806e-a2fbd5cb770e
-9e33670d-157f-4ca7-88dc-4ade6d18db45	buy the cat	f	2024-05-04 09:52:20.106	2024-05-04 09:52:01.348	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N
-83eea42f-556a-4302-a79b-c9be015400eb	disport the antiquity	f	2024-05-04 10:33:42.802	2024-05-04 10:33:42.802	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N
-7bb88df7-5a75-43c0-a201-2dbf60ba80c4	undulate the goodbye	f	2024-05-04 10:33:42.822	2024-05-04 10:33:42.822	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N
-92d2adc2-d785-4d99-9c65-8ef126feb818	charge the harmonica	t	2024-05-02 05:02:49.889	2024-05-04 10:33:42.909	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N
-5bf97843-4e24-46c6-ba88-1f4da98d7b95	navigate the alarm	t	2024-05-02 05:02:52.454	2024-05-04 10:33:42.909	acdd0c13-ad06-4596-8026-d62fc7e25b02	92d2adc2-d785-4d99-9c65-8ef126feb818
-f22a5e2c-c115-4335-8466-28b9d8c3758c	postulate the space	t	2024-05-04 10:33:42.841	2024-05-04 10:33:42.909	acdd0c13-ad06-4596-8026-d62fc7e25b02	92d2adc2-d785-4d99-9c65-8ef126feb818
-2de8dcad-2a0f-43b8-b3e7-a6c3492fd66f	minus the bottle	f	2024-05-04 11:01:07.56	2024-05-04 11:00:41.395	acdd0c13-ad06-4596-8026-d62fc7e25b02	9d44af76-3abf-491d-9087-cc68ecc6bcc0
+COPY public."Task" (id, name, completed, "createdAt", "updatedAt", "projectId", "parentTaskId", lexorank) FROM stdin;
+6da9d06d-7fe7-4d52-b84d-23da38ac24be	simulate the ambassador	f	2024-06-16 05:48:29.603	2024-06-16 05:48:29.603	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N	0|8zzzzz:
+7dcfd443-6800-4432-9817-f443e5d5cea3	impact the comma	f	2024-06-16 05:48:29.637	2024-06-16 05:48:29.637	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N	0|4hzzzz:
+7bb88df7-5a75-43c0-a201-2dbf60ba80c4	undulate the goodbye	f	2024-05-04 10:33:42.822	2024-06-16 05:55:50.806	acdd0c13-ad06-4596-8026-d62fc7e25b02	6da9d06d-7fe7-4d52-b84d-23da38ac24be	0|i0000f:
+9d44af76-3abf-491d-9087-cc68ecc6bcc0	index the feed	f	2024-05-02 05:02:57.352	2024-06-16 05:46:19.727	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	\N	0|hzzzzz:
+8a59655d-ea8a-4323-a877-1a5b8084f284	compress the port	f	2024-05-02 05:01:32.484	2024-06-16 05:46:19.727	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	\N	0|i00007:
+a9cad9a7-53e3-472d-ab98-5d0d6d3eb94f	militarize the variant	f	2024-06-16 05:42:44.715	2024-06-16 05:46:19.727	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N	0|i00007:
+ac2882fc-648f-4c6c-a3da-c821c6c7a53a	copy the panel	f	2024-05-02 05:01:45.798	2024-06-16 05:46:19.738	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	8a59655d-ea8a-4323-a877-1a5b8084f284	0|hzzzzz:
+2de8dcad-2a0f-43b8-b3e7-a6c3492fd66f	minus the bottle	f	2024-05-04 11:01:07.56	2024-06-16 05:46:19.739	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	9d44af76-3abf-491d-9087-cc68ecc6bcc0	0|hzzzzz:
+837a9979-a06a-4587-933a-cb1310283e22	navigate the protocol	f	2024-05-02 05:02:59.055	2024-06-16 05:46:19.739	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	9d44af76-3abf-491d-9087-cc68ecc6bcc0	0|i00007:
+bec8c750-95f8-46c2-a6a3-b9aa456a8982	bypass the driver	f	2024-05-02 05:01:43.842	2024-06-16 05:46:19.738	65f38cc9-13e3-49b4-92eb-ad01aedd94ad	8a59655d-ea8a-4323-a877-1a5b8084f284	0|i00007:
+83eea42f-556a-4302-a79b-c9be015400eb	disport the antiquity	f	2024-05-04 10:33:42.802	2024-06-16 06:07:33.331	acdd0c13-ad06-4596-8026-d62fc7e25b02	7dcfd443-6800-4432-9817-f443e5d5cea3	0|i0000n:
+8ae29c43-3acf-4cc5-ab29-d896164e8320	stray the set	f	2024-06-16 05:42:44.744	2024-06-16 06:07:33.331	acdd0c13-ad06-4596-8026-d62fc7e25b02	7dcfd443-6800-4432-9817-f443e5d5cea3	0|hzzzzz:
 \.
 
 
@@ -162,6 +158,8 @@ da94b4b6-8234-4698-a493-c96433c61aa3	postman@gmail.com	$2b$05$j9xQPocVilzoi/eqSF
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
 91551d69-eaf3-4c78-8b29-57130975f2be	860ad83ccc0d1021e4eca7cbe86276d57eceab5f20b7df865bfacb00c54e2d82	2024-04-25 21:47:37.836946+07	20240425144737_init	\N	\N	2024-04-25 21:47:37.809377+07	1
 5781667e-1e84-4884-a61e-3f3414e465c7	15a7da4a4095e25d1094462b3219050c1a71db0459ca02e4bbf6d4abb8c03afc	2024-05-01 16:57:52.966626+07	20240501095752_add_cascade	\N	\N	2024-05-01 16:57:52.941578+07	1
+b3fcf403-9ab5-49e0-8871-52780e5964f8	d184c87477b9ab1ee5ec537dcaa05a58269125ca2340b3f8f8c89accc61192fa	2024-06-16 12:21:45.892008+07	20240612042410_add_lexorank	\N	\N	2024-06-16 12:21:45.886543+07	1
+68186a20-7655-4a57-bb82-a69ae2da6d96	0d9ff0e628147478a973fad6533d30b6db38d453801b4267cd4155ff3fd5a103	2024-06-16 12:21:45.90498+07	20240615035700_remove_lexorank_length_constraint	\N	\N	2024-06-16 12:21:45.893042+07	1
 \.
 
 
