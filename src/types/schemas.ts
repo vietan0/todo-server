@@ -44,12 +44,14 @@ export const ReqBodyCreateTaskSchema: toZod<ReqBodyCreateTask> = z.object({
 export type ReqBodyUpdateTask = ExtractPrimitive<
   Pick<
     Prisma.TaskUncheckedUpdateInput,
-    'name' | 'completed' | 'projectId' | 'parentTaskId'
+    'name' | 'completed' | 'lexorank' | 'projectId' | 'parentTaskId'
   >
 >;
+// @ts-expect-error nullable() works fine but toZod is complaining (https://github.com/colinhacks/tozod/issues/31)
 export const ReqBodyUpdateTaskSchema: toZod<ReqBodyUpdateTask> = z.object({
   name: z.string().trim().min(1).max(255).optional(),
   completed: z.boolean().optional(),
+  lexorank: z.string().optional(),
   projectId: z.string().uuid().optional(),
-  parentTaskId: z.string().uuid().optional(),
+  parentTaskId: z.string().uuid().nullable().optional(),
 });
