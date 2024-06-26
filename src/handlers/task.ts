@@ -143,7 +143,7 @@ export const updateTask: RequestHandler<
       throw new Error("Request's body must not be empty");
     }
 
-    const { name, completed, projectId, parentTaskId } = req.body;
+    const { name, completed, lexorank, projectId, parentTaskId } = req.body;
     let parentTask: Task | undefined = undefined;
 
     if (parentTaskId) {
@@ -199,6 +199,7 @@ export const updateTask: RequestHandler<
       data: {
         name: name,
         completed: completed,
+        lexorank: lexorank,
         subTasks: {
           updateMany: {
             where: {},
@@ -214,12 +215,10 @@ export const updateTask: RequestHandler<
             ? { connect: { id: parentTask.projectId } }
             : undefined,
         parentTask: parentTaskId
-          ? {
-              connect: {
-                id: parentTaskId,
-              },
-            }
-          : undefined,
+          ? { connect: { id: parentTaskId } }
+          : parentTaskId === null
+            ? { disconnect: true }
+            : undefined,
       },
       include: {
         subTasks: true,
