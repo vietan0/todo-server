@@ -34,7 +34,11 @@ process.env.NODE_ENV !== 'test' &&
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173', // dev
+      'http://localhost:4173', // preview
+      'https://todo-fe-vietan0.netlify.app', // prod
+    ],
     credentials: true,
   }),
 );
