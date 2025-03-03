@@ -12,7 +12,7 @@ export const createTask: RequestHandler<
   ReqBodyCreateTask
 > = async (req, res, next) => {
   try {
-    const { name, parentTaskId } = req.body;
+    const { name, body, parentTaskId } = req.body;
 
     if (parentTaskId) {
       const parentTask = await prisma.task.findUniqueOrThrow({
@@ -53,6 +53,7 @@ export const createTask: RequestHandler<
     const newTask = await prisma.task.create({
       data: {
         name: name,
+        body: body,
         lexorank: genNewTaskRank(tasks, parentTaskId),
         project: {
           connect: {
@@ -143,7 +144,9 @@ export const updateTask: RequestHandler<
       throw new Error("Request's body must not be empty");
     }
 
-    const { name, completed, lexorank, projectId, parentTaskId } = req.body;
+    const { name, body, completed, lexorank, projectId, parentTaskId } =
+      req.body;
+
     let parentTask: Task | undefined = undefined;
 
     if (parentTaskId) {
@@ -198,6 +201,7 @@ export const updateTask: RequestHandler<
       },
       data: {
         name: name,
+        body: body,
         completed: completed,
         lexorank: lexorank,
         subTasks: {

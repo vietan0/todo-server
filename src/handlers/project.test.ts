@@ -8,8 +8,8 @@ import { ResBody } from '../types/express/ResBody.js';
 
 let token: string;
 const userId = testIds.user[0].id;
-const projectId = testIds.user[0].projects[0].id;
-const taskId = testIds.user[0].projects[0].tasks[0].id;
+const projectId = testIds.user[0].projects[2].id;
+const taskId = testIds.user[0].projects[2].tasks[0].id;
 
 beforeAll(async () => {
   const signInRes = await request(app)
@@ -162,7 +162,7 @@ describe('READ project', () => {
         id: projectId,
         name: expect.any(String),
         lexorank: expect.any(String),
-        createdAt: '2024-05-02T05:01:17.880Z',
+        createdAt: '2025-03-03T10:39:36.752Z',
         updatedAt: expect.any(String),
         userId: userId,
         tasks: expect.any(Array),

@@ -26,25 +26,28 @@ beforeAll(async () => {
 describe('CREATE task', () => {
   test('Success', async () => {
     const name = `${faker.word.verb()} the ${faker.word.noun()}`;
+    const body = faker.lorem.sentence();
 
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
-      .send({ name })
+      .send({ name, body })
       .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
 
     expect(res.body).toMatchObject({
       status: 'success',
-      data: { name, completed: false, parentTaskId: null },
+      data: { name, body, completed: false, parentTaskId: null },
     });
   });
 
-  test('Success - Keys other than `name` are ignored', async () => {
+  test('Success - Keys other than `name` and `body` are ignored', async () => {
     const name = `${faker.word.verb()} the ${faker.word.noun()}`;
+    const body = faker.lorem.sentence();
 
     const reqBody = {
       name,
+      body,
       id: faker.string.uuid(),
       completed: true,
       createdAt: faker.date.past().toISOString(),
@@ -63,6 +66,7 @@ describe('CREATE task', () => {
       data: {
         id: expect.not.stringMatching(reqBody.id),
         name: reqBody.name,
+        body: reqBody.body,
         completed: false,
         lexorank: expect.any(String),
         createdAt: expect.not.stringMatching(reqBody.createdAt),
@@ -139,6 +143,7 @@ describe('READ task', () => {
     expect(res.body.data).toContainEqual({
       id: expect.any(String),
       name: expect.any(String),
+      body: expect.toBeOneOf([expect.any(String), null]),
       completed: false,
       lexorank: expect.any(String),
       createdAt: expect.any(String),
@@ -329,7 +334,6 @@ describe('UPDATE task', () => {
       .send({ projectId: newProjectId })
       .set('Cookie', `token=${token}`);
 
-    console.log(res.body.data);
     expect(res.status).toStrictEqual(200);
     expect(res.body.data.projectId).toStrictEqual(newProjectId);
     expect(res.body.data.subTasks[0].projectId).toStrictEqual(newProjectId);
