@@ -53,7 +53,7 @@ CREATE TABLE public."Project" (
     "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "updatedAt" timestamp(3) without time zone NOT NULL,
     "userId" uuid NOT NULL,
-    lexorank text
+    lexorank text NOT NULL
 );
 
 
@@ -71,7 +71,7 @@ CREATE TABLE public."Task" (
     "updatedAt" timestamp(3) without time zone NOT NULL,
     "projectId" uuid NOT NULL,
     "parentTaskId" uuid,
-    lexorank text,
+    lexorank text NOT NULL,
     body text
 );
 
@@ -165,6 +165,7 @@ COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs,
 b3fcf403-9ab5-49e0-8871-52780e5964f8	d184c87477b9ab1ee5ec537dcaa05a58269125ca2340b3f8f8c89accc61192fa	2024-06-16 12:21:45.892008+07	20240612042410_add_lexorank	\N	\N	2024-06-16 12:21:45.886543+07	1
 68186a20-7655-4a57-bb82-a69ae2da6d96	0d9ff0e628147478a973fad6533d30b6db38d453801b4267cd4155ff3fd5a103	2024-06-16 12:21:45.90498+07	20240615035700_remove_lexorank_length_constraint	\N	\N	2024-06-16 12:21:45.893042+07	1
 1d246fe0-0561-432c-b28d-096ccd7ff0f8	96b8c9e6ccf0c23da83a2ebc91c2df202002e91d46dc027d2f661982c68abc8c	2025-03-02 17:52:00.239982+07	20250216100932_add_body_to_tasks	\N	\N	2025-03-02 17:52:00.23644+07	1
+935388ba-6fa7-4bbe-ba8e-c6a7bd3a0f9c	e37f1be8c23b81476efef8633195a5aa3311c7813f661c0df6cd7b92f431b3d3	2025-03-04 14:36:50.903804+07	20250304073650_make_lexorank_required	\N	\N	2025-03-04 14:36:50.894722+07	1
 \.
 
 

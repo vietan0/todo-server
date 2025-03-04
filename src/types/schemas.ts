@@ -31,6 +31,7 @@ export type ReqBodyUpdateProject = ExtractPrimitive<
 export const ReqBodyUpdateProjectSchema: toZod<ReqBodyUpdateProject> = z.object(
   {
     name: z.string().trim().min(1).max(255).optional(),
+    lexorank: z.string().optional(),
   },
 );
 export type ReqBodyCreateTask = Pick<
