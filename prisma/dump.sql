@@ -128,9 +128,6 @@ acdd0c13-ad06-4596-8026-d62fc7e25b02	Project for Testing[1]	2024-05-02 05:02:34.
 --
 
 COPY public."Task" (id, name, completed, "createdAt", "updatedAt", "projectId", "parentTaskId", lexorank, body) FROM stdin;
-7dcfd443-6800-4432-9817-f443e5d5cea3	impact the comma	f	2024-06-16 05:48:29.637	2024-06-16 05:48:29.637	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N	0|4hzzzz:	\N
-83eea42f-556a-4302-a79b-c9be015400eb	disport the antiquity	f	2024-05-04 10:33:42.802	2024-06-16 06:07:33.331	acdd0c13-ad06-4596-8026-d62fc7e25b02	7dcfd443-6800-4432-9817-f443e5d5cea3	0|i0000n:	\N
-8ae29c43-3acf-4cc5-ab29-d896164e8320	stray the set	f	2024-06-16 05:42:44.744	2024-06-16 06:07:33.331	acdd0c13-ad06-4596-8026-d62fc7e25b02	7dcfd443-6800-4432-9817-f443e5d5cea3	0|hzzzzz:	\N
 ee0c7d8a-95ee-487e-8d66-3589faacb883	guys' apartment	f	2025-03-03 08:57:07.006	2025-03-03 08:57:07.006	7760fd08-cbab-4fb1-9698-db00bcaca014	\N	0|4hzzzz:	
 7ac58372-fcb0-49e7-8326-80ae5882cd6a	joey tribbiani	f	2025-03-03 08:56:34.771	2025-03-03 08:57:08.515	7760fd08-cbab-4fb1-9698-db00bcaca014	ee0c7d8a-95ee-487e-8d66-3589faacb883	0|hzzzzz:	
 c04336a9-85e6-4a43-a84d-801eb27ed3e3	chandler bing	f	2025-03-03 08:56:15.52	2025-03-03 08:57:10.205	7760fd08-cbab-4fb1-9698-db00bcaca014	ee0c7d8a-95ee-487e-8d66-3589faacb883	0|hzzzzr:	
@@ -141,6 +138,9 @@ deff9eba-003a-4897-9906-eef2fccc3782	rachel green	f	2025-03-03 08:57:43.655	2025
 6edb4bb4-beb8-4bf0-a02c-90cd9ceef95e	blaze the glory	f	2025-03-03 09:13:47.644	2025-03-03 09:16:17.254	acdd0c13-ad06-4596-8026-d62fc7e25b02	827e8b48-e748-4dc1-ba15-8a93874504d0	0|hzzzzz:	
 3c34634f-f6a4-41e4-9bf8-5c46e68f1d23	standalone	f	2025-03-03 09:16:42.797	2025-03-03 09:16:42.797	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N	0|0k8zzz:	
 0c23434a-b6a8-4161-803a-0562b3ffc249	a task	f	2025-03-03 10:39:49.056	2025-03-03 10:39:49.056	508fac0c-fde0-4288-aee2-9d7ae22012b9	\N	0|hzzzzz:	
+7dcfd443-6800-4432-9817-f443e5d5cea3	impact the comma	f	2024-06-16 05:48:29.637	2025-03-04 08:54:41.884	acdd0c13-ad06-4596-8026-d62fc7e25b02	\N	0|4hzzzz:	
+8ae29c43-3acf-4cc5-ab29-d896164e8320	stray the set	f	2024-06-16 05:42:44.744	2025-03-04 08:54:47.424	acdd0c13-ad06-4596-8026-d62fc7e25b02	7dcfd443-6800-4432-9817-f443e5d5cea3	0|hzzzzz:	
+83eea42f-556a-4302-a79b-c9be015400eb	disport the antiquity	f	2024-05-04 10:33:42.802	2025-03-04 08:54:56.943	acdd0c13-ad06-4596-8026-d62fc7e25b02	7dcfd443-6800-4432-9817-f443e5d5cea3	0|i0000n:	
 \.
 
 
@@ -149,8 +149,6 @@ deff9eba-003a-4897-9906-eef2fccc3782	rachel green	f	2025-03-03 08:57:43.655	2025
 --
 
 COPY public."User" (id, email, password, "createdAt", "updatedAt") FROM stdin;
-f09e3088-d756-44ea-8195-4d30a27644fe	Avery.Mills@hotmail.com	$2b$05$td/mTwx5b.0CzfU1Dsexxeg4q5CnjFpO4vc8I6J7tmWmhDBfp.sUy	2024-05-02 04:59:30.019	2024-05-02 04:59:30.019
-224501b9-11b6-4bdc-9953-cfc5ef5fdfd4	Mac_Walker@hotmail.com	$2b$05$l5HcAL6YLb81uJRNlh3Qd.g7ye6Vfs.99ZbTaOD9x0c6yGWeU6ena	2024-05-02 04:59:31.281	2024-05-02 04:59:31.281
 da94b4b6-8234-4698-a493-c96433c61aa3	postman@gmail.com	$2b$05$j9xQPocVilzoi/eqSFXJj.O6cpm6hBZhMqklSesOaVhNRWafSxhaG	2024-05-02 05:00:15.696	2024-05-02 05:00:15.696
 \.
 

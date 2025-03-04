@@ -84,7 +84,7 @@ describe('CREATE task', () => {
   test('Name missing throws error', async () => {
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
-      .send()
+      .send({ body: faker.lorem.sentence() })
       .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
@@ -96,12 +96,28 @@ describe('CREATE task', () => {
     });
   });
 
+  test('Body missing throws error', async () => {
+    const res = await request(app)
+      .post(`/api/project/${projectId}/task`)
+      .send({ name: `${faker.word.verb()} the ${faker.word.noun()}` })
+      .set('Cookie', `token=${token}`);
+
+    expect(res.status).toStrictEqual(400);
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: 'Validation error: Required at "body"',
+      error: expect.any(Object),
+    });
+  });
+
   test('Create sub-task - Success', async () => {
     const name = `${faker.word.verb()} the ${faker.word.noun()}`;
+    const body = faker.lorem.sentence();
 
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
-      .send({ name, parentTaskId: taskIsParent })
+      .send({ name, body, parentTaskId: taskIsParent })
       .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(200);
@@ -116,10 +132,11 @@ describe('CREATE task', () => {
 
   test('Create sub-task - Throw error if `parentTaskId` is a child', async () => {
     const name = `${faker.word.verb()} the ${faker.word.noun()}`;
+    const body = faker.lorem.sentence();
 
     const res = await request(app)
       .post(`/api/project/${projectId}/task`)
-      .send({ name, parentTaskId: taskIsChild })
+      .send({ name, body, parentTaskId: taskIsChild })
       .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);

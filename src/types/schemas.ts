@@ -40,7 +40,7 @@ export type ReqBodyCreateTask = Pick<
 >;
 export const ReqBodyCreateTaskSchema: toZod<ReqBodyCreateTask> = z.object({
   name: z.string().trim().min(1).max(255),
-  body: z.string().optional(),
+  body: z.string(),
   parentTaskId: z.string().uuid().optional(),
 });
 export type ReqBodyUpdateTask = ExtractPrimitive<
@@ -52,7 +52,7 @@ export type ReqBodyUpdateTask = ExtractPrimitive<
 // @ts-expect-error nullable() works fine but toZod is complaining (https://github.com/colinhacks/tozod/issues/31)
 export const ReqBodyUpdateTaskSchema: toZod<ReqBodyUpdateTask> = z.object({
   name: z.string().trim().min(1).max(255).optional(),
-  body: z.string().nullable().optional(),
+  body: z.string().optional(),
   completed: z.boolean().optional(),
   lexorank: z.string().optional(),
   projectId: z.string().uuid().optional(),
