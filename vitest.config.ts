@@ -1,6 +1,6 @@
 import { configDefaults, defineConfig } from 'vitest/config';
 
-import setup from './src/test/globalSetup.js';
+import { setup, teardown } from './src/test/globalSetup.js';
 
 export default defineConfig({
   test: {
@@ -9,6 +9,7 @@ export default defineConfig({
       'default',
       {
         async onWatcherRerun() {
+          await teardown();
           await setup();
         },
       },

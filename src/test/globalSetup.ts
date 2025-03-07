@@ -3,7 +3,7 @@ import util from 'node:util';
 
 const execPromise = util.promisify(exec);
 
-export default async function setup() {
+async function runSeed() {
   try {
     const { stdout, stderr } = await execPromise('npx prisma db seed');
     stdout && console.log('stdout :>> ', stdout);
@@ -11,6 +11,14 @@ export default async function setup() {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function setup() {
+  runSeed();
+}
+
+export async function teardown() {
+  runSeed();
 }
 
 // do this to have type-safe access to `provide/inject` methods in test files
