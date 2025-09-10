@@ -1,6 +1,7 @@
 {
   "name": "todo-server",
   "type": "module",
+  "packageManager": "pnpm@10.15.1",
   "version": "1.0.0",
   "description": "",
   "keywords": [],

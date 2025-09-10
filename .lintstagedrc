@@ -1,5 +1,5 @@
 {
-  "*.{ts,tsx}": "npm run lint",
-  "*": "npm run prettier",
-  "package.json": "npm run pretpkg"
+  "*.{ts,tsx}": "pnpm run lint",
+  "*": "pnpm run prettier",
+  "package.json": "pnpm run pretpkg"
 }
