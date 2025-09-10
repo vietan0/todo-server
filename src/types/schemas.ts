@@ -13,7 +13,7 @@ export type ReqBodyCreateUser = Pick<
   'email' | 'password'
 >;
 export const ReqBodyCreateUserSchema: toZod<ReqBodyCreateUser> = z.object({
-  email: z.string().email().max(255),
+  email: z.email().max(255),
   password: z.string().trim().min(4).max(255),
 });
 export type ReqBodyCreateProject = Pick<
@@ -41,7 +41,7 @@ export type ReqBodyCreateTask = Pick<
 export const ReqBodyCreateTaskSchema: toZod<ReqBodyCreateTask> = z.object({
   name: z.string().trim().min(1).max(255),
   body: z.string(),
-  parentTaskId: z.string().uuid().optional(),
+  parentTaskId: z.uuid().optional(),
 });
 export type ReqBodyUpdateTask = ExtractPrimitive<
   Pick<
@@ -49,12 +49,11 @@ export type ReqBodyUpdateTask = ExtractPrimitive<
     'name' | 'body' | 'completed' | 'lexorank' | 'projectId' | 'parentTaskId'
   >
 >;
-// @ts-expect-error nullable() works fine but toZod is complaining (https://github.com/colinhacks/tozod/issues/31)
 export const ReqBodyUpdateTaskSchema: toZod<ReqBodyUpdateTask> = z.object({
   name: z.string().trim().min(1).max(255).optional(),
   body: z.string().optional(),
   completed: z.boolean().optional(),
   lexorank: z.string().optional(),
-  projectId: z.string().uuid().optional(),
-  parentTaskId: z.string().uuid().nullable().optional(),
+  projectId: z.uuid().optional(),
+  parentTaskId: z.uuid().nullable().optional(),
 });

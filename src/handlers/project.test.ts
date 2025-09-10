@@ -109,8 +109,7 @@ describe('CREATE project', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message:
-        'Validation error: String must contain at most 255 character(s) at "name"',
+      message: expect.stringContaining('expected string to have <=255 characters at "name"'),
       error: expect.any(Object),
     });
   });
@@ -125,7 +124,7 @@ describe('CREATE project', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: 'Validation error: Required at "name"',
+      message: expect.stringContaining('expected object, received undefined'),
       error: expect.any(Object),
     });
   });
@@ -177,10 +176,13 @@ describe('READ project', () => {
 
     expect(res.status).toStrictEqual(400);
 
-    expect(res.body).toStrictEqual({
+    expect(res.body).toMatchObject({
       status: 'error',
-      message: 'No Project found',
-      error: expect.any(Object),
+      error: {
+        code: 'P2025',
+        meta: { modelName: 'Project', cause: 'No record was found for a query.' },
+        name: 'PrismaClientKnownRequestError',
+      },
     });
   });
 
@@ -248,7 +250,7 @@ describe('UPDATE project', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: 'Request\'s body must not be empty',
+      message: expect.stringContaining('expected object, received undefined'),
       error: expect.any(Object),
     });
   });
@@ -278,7 +280,11 @@ describe('DELETE project', () => {
 
     expect(getTaskInsideRes.body).toMatchObject({
       status: 'error',
-      message: 'No Task found',
+      error: {
+        code: 'P2025',
+        meta: { modelName: 'Task', cause: 'No record was found for a query.' },
+        name: 'PrismaClientKnownRequestError',
+      },
     });
   });
 

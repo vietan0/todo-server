@@ -38,8 +38,15 @@ describe('Sign Up', () => {
   test('email missing', async () => {
     const res = await sendSignUp({ password: authPayload.password });
     expect(res.status).toEqual(400);
-    expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('Required at "email"');
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: expect.stringContaining('received undefined at "email"'),
+      error: {
+        name: 'ZodError',
+        message: expect.any(String),
+      },
+    });
   });
 
   test('email invalid', async () => {
@@ -57,8 +64,15 @@ describe('Sign Up', () => {
     });
 
     expect(res.status).toEqual(400);
-    expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('contain at most 255 character(s)');
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: expect.stringContaining('expected string to have <=255 characters at "email"'),
+      error: {
+        name: 'ZodError',
+        message: expect.any(String),
+      },
+    });
   });
 
   test('password missing', async () => {
@@ -67,8 +81,15 @@ describe('Sign Up', () => {
     });
 
     expect(res.status).toEqual(400);
-    expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('Required at "password"');
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: expect.stringContaining('received undefined at "password"'),
+      error: {
+        name: 'ZodError',
+        message: expect.any(String),
+      },
+    });
   });
 
   test('password too short', async () => {
@@ -78,7 +99,14 @@ describe('Sign Up', () => {
     });
 
     expect(res.status).toEqual(400);
-    expect(res.body).toHaveProperty('status', 'error');
-    expect(res.body.message).toMatch('contain at least 4 character(s)');
+
+    expect(res.body).toStrictEqual({
+      status: 'error',
+      message: expect.stringContaining('expected string to have >=4 characters at "password"'),
+      error: {
+        name: 'ZodError',
+        message: expect.any(String),
+      },
+    });
   });
 });

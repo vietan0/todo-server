@@ -33,13 +33,13 @@ test(`email doesn't exist`, async () => {
 
   expect(res.status).toEqual(400);
 
-  expect(res.body).toEqual({
+  expect(res.body).toMatchObject({
     status: 'error',
-    message: 'No User found',
     error: {
-      name: 'NotFoundError',
-      code: 'P2025',
       clientVersion: expect.any(String),
+      name: 'PrismaClientKnownRequestError',
+      code: 'P2025',
+      meta: { modelName: 'User', cause: 'No record was found for a query.' },
     },
   });
 });

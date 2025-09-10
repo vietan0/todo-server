@@ -15,6 +15,12 @@ const taskIsParent = testIds.user[0].projects[1].tasks[1].id;
 const taskIsParent2 = testIds.user[0].projects[1].tasks[2].id;
 const taskIsNothing = testIds.user[0].projects[1].tasks[3].id;
 
+const notFoundError = {
+  code: 'P2025',
+  meta: { modelName: 'Task', cause: 'No record was found for a query.' },
+  name: 'PrismaClientKnownRequestError',
+};
+
 beforeAll(async () => {
   const signInRes = await request(app)
     .post('/auth/signin')
@@ -91,7 +97,7 @@ describe('CREATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: 'Validation error: Required at "name"',
+      message: expect.stringContaining('expected string, received undefined at "name"'),
       error: expect.any(Object),
     });
   });
@@ -106,7 +112,7 @@ describe('CREATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: 'Validation error: Required at "body"',
+      message: expect.stringContaining('expected string, received undefined at "body"'),
       error: expect.any(Object),
     });
   });
@@ -194,12 +200,7 @@ describe('READ task', () => {
       .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
-
-    expect(res.body).toStrictEqual({
-      status: 'error',
-      message: 'No Task found',
-      error: expect.any(Object),
-    });
+    expect(res.body).toMatchObject({ status: 'error', error: notFoundError });
   });
 
   test('Get By Id - Invalid UUID throws error', async () => {
@@ -258,12 +259,7 @@ describe('UPDATE task', () => {
       .set('Cookie', `token=${token}`);
 
     expect(res.status).toStrictEqual(400);
-
-    expect(res.body).toMatchObject({
-      status: 'error',
-      message: 'No Task found',
-      error: expect.any(Object),
-    });
+    expect(res.body).toMatchObject({ status: 'error', error: notFoundError });
   });
 
   test('Change `parentTaskId` - Throw error if `parentTaskId` is the same as `:taskId`', async () => {
@@ -367,7 +363,7 @@ describe('UPDATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: 'Request\'s body must not be empty',
+      message: expect.stringContaining('expected object, received undefined'),
       error: expect.any(Object),
     });
   });
@@ -394,10 +390,6 @@ describe('DELETE task', () => {
       .set('Cookie', `token=${token}`);
 
     expect(getSubtaskRes.status).toStrictEqual(400);
-
-    expect(getSubtaskRes.body).toMatchObject({
-      status: 'error',
-      message: 'No Task found',
-    });
+    expect(getSubtaskRes.body).toMatchObject({ status: 'error', error: notFoundError });
   });
 });
