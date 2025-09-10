@@ -1,4 +1,4 @@
-import { Project } from '@prisma/client';
+import type { Project } from '@prisma/client';
 import { LexoRank } from 'lexorank';
 
 import prisma from '../../prisma/client.js';
@@ -6,7 +6,7 @@ import latestFirst from './latestFirst.js';
 import { genNextByCount, sortRank } from './sortRank.js';
 
 export function genNewProjectRank(projects: Project[]) {
-  const ranks = projects.map((p) => p.lexorank);
+  const ranks = projects.map(p => p.lexorank);
   const sortedRanks = sortRank(ranks);
 
   if (sortedRanks.length === 0) {
@@ -28,9 +28,9 @@ export async function fillNullProjectRanks() {
     select: { projects: true },
   });
 
-  const groupedProjects = users.map((u) => u.projects);
+  const groupedProjects = users.map(u => u.projects);
 
-  const sortedProjects = groupedProjects.map((projectsOfOneUser) =>
+  const sortedProjects = groupedProjects.map(projectsOfOneUser =>
     projectsOfOneUser.sort(latestFirst),
   );
 

@@ -1,9 +1,9 @@
-import { Task } from '@prisma/client';
-import { RequestHandler } from 'express';
+import type { Task } from '@prisma/client';
+import type { RequestHandler } from 'express';
 
+import type { ResBody } from '../types/express/ResBody.js';
+import type { ReqBodyCreateTask, ReqBodyUpdateTask } from '../types/schemas.js';
 import prisma from '../prisma/client.js';
-import { ResBody } from '../types/express/ResBody.js';
-import { ReqBodyCreateTask, ReqBodyUpdateTask } from '../types/schemas.js';
 import { genNewTaskRank } from '../utils/lexorank/taskRank.js';
 
 export const createTask: RequestHandler<
@@ -52,8 +52,8 @@ export const createTask: RequestHandler<
 
     const newTask = await prisma.task.create({
       data: {
-        name: name,
-        body: body,
+        name,
+        body,
         lexorank: genNewTaskRank(tasks, parentTaskId),
         project: {
           connect: {
@@ -77,7 +77,8 @@ export const createTask: RequestHandler<
     });
 
     res.json({ status: 'success', data: newTask });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -103,7 +104,8 @@ export const getTasks: RequestHandler<{ projectId: string }, ResBody> = async (
     });
 
     res.json({ status: 'success', data: tasks });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -129,7 +131,8 @@ export const getTaskById: RequestHandler<{ taskId: string }, ResBody> = async (
     });
 
     res.json({ status: 'success', data: task });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -141,22 +144,23 @@ export const updateTask: RequestHandler<
 > = async (req, res, next) => {
   try {
     if (Object.keys(req.body).length === 0) {
-      throw new Error("Request's body must not be empty");
+      throw new Error('Request\'s body must not be empty');
     }
 
-    const { name, body, completed, lexorank, projectId, parentTaskId } =
-      req.body;
+    const { name, body, completed, lexorank, projectId, parentTaskId }
+      = req.body;
 
-    let parentTask: Task | undefined = undefined;
+    let parentTask: Task | undefined;
 
     if (parentTaskId) {
       if (parentTaskId === req.params.taskId)
-        throw new Error("Task can't be its own parent");
+        throw new Error('Task can\'t be its own parent');
 
-      if (projectId)
+      if (projectId) {
         throw new Error(
-          "Can't pass both projectId and parentTaskId in one request",
+          'Can\'t pass both projectId and parentTaskId in one request',
         );
+      }
 
       // throw if parent task not found
       parentTask = await prisma.task.findUniqueOrThrow({
@@ -200,10 +204,10 @@ export const updateTask: RequestHandler<
         },
       },
       data: {
-        name: name,
-        body: body,
-        completed: completed,
-        lexorank: lexorank,
+        name,
+        body,
+        completed,
+        lexorank,
         subTasks: {
           updateMany: {
             where: {},
@@ -230,7 +234,8 @@ export const updateTask: RequestHandler<
     });
 
     res.json({ status: 'success', data: updatedTask });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -256,7 +261,8 @@ export const deleteTask: RequestHandler<{ taskId: string }, ResBody> = async (
     });
 
     res.json({ status: 'success', data: deletedTask });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

@@ -1,7 +1,9 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
-import {
+import type {
   ReqBodyCreateProject,
+} from '../types/schemas.js';
+import {
   ReqBodyCreateProjectSchema,
 } from '../types/schemas.js';
 
@@ -13,7 +15,8 @@ const validateCreateProject: RequestHandler<
   try {
     ReqBodyCreateProjectSchema.parse(req.body);
     next();
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

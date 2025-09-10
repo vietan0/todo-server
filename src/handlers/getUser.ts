@@ -1,7 +1,7 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
+import type { ResBody } from '../types/express/ResBody.js';
 import prisma from '../prisma/client.js';
-import { ResBody } from '../types/express/ResBody.js';
 
 const getUser: RequestHandler<never, ResBody> = async (req, res, next) => {
   try {
@@ -15,7 +15,8 @@ const getUser: RequestHandler<never, ResBody> = async (req, res, next) => {
       status: 'success',
       data: user,
     });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

@@ -1,10 +1,10 @@
+import type { ResBody } from '../types/express/ResBody.js';
 import { faker } from '@faker-js/faker';
 import request from 'supertest';
-import { beforeAll, describe, expect, test } from 'vitest';
 
+import { beforeAll, describe, expect, test } from 'vitest';
 import app from '../server.js';
 import { testIds } from '../test/projectTaskHelpers.js';
-import { ResBody } from '../types/express/ResBody.js';
 
 let token: string;
 const userId = testIds.user[0].id;
@@ -26,7 +26,7 @@ describe('Unauthorized cases', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Token doesn't exist",
+      message: 'Token doesn\'t exist',
     });
   });
 
@@ -164,7 +164,7 @@ describe('READ project', () => {
         lexorank: expect.any(String),
         createdAt: '2025-03-03T10:39:36.752Z',
         updatedAt: expect.any(String),
-        userId: userId,
+        userId,
         tasks: expect.any(Array),
       },
     });
@@ -248,7 +248,7 @@ describe('UPDATE project', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Request's body must not be empty",
+      message: 'Request\'s body must not be empty',
       error: expect.any(Object),
     });
   });

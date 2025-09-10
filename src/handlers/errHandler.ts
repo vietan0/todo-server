@@ -1,8 +1,8 @@
-import { ErrorRequestHandler } from 'express';
+import type { ErrorRequestHandler } from 'express';
+import type { ResBody } from '../types/express/ResBody.js';
 import { ZodError } from 'zod';
-import { fromZodError } from 'zod-validation-error';
 
-import { ResBody } from '../types/express/ResBody.js';
+import { fromZodError } from 'zod-validation-error';
 
 const errHandler: ErrorRequestHandler<never, ResBody> = (
   err,
@@ -15,7 +15,8 @@ const errHandler: ErrorRequestHandler<never, ResBody> = (
   if (err instanceof ZodError) {
     const validationError = fromZodError(err);
     message = validationError.toString();
-  } else {
+  }
+  else {
     const error = err as Error;
     message = error.message;
   }

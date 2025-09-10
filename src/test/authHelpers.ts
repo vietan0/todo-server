@@ -1,8 +1,8 @@
+import type { ReqBodyCreateUser } from '../types/schemas.js';
 import { faker } from '@faker-js/faker';
-import request from 'supertest';
 
+import request from 'supertest';
 import app from '../server.js';
-import { ReqBodyCreateUser } from '../types/schemas.js';
 
 export const authPayload: ReqBodyCreateUser = {
   email: faker.internet.email(),

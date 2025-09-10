@@ -1,8 +1,8 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
+import type { ResBody } from '../types/express/ResBody.js';
+import type { ReqBodyCreateUser } from '../types/schemas.js';
 import prisma from '../prisma/client.js';
-import { ResBody } from '../types/express/ResBody.js';
-import { ReqBodyCreateUser } from '../types/schemas.js';
 import comparePasswords from '../utils/comparePasswords.js';
 import createToken from '../utils/createToken.js';
 
@@ -29,7 +29,8 @@ const signIn: RequestHandler<never, ResBody, ReqBodyCreateUser> = async (
         sameSite: 'none',
       })
       .json({ status: 'success', data: existingUser });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

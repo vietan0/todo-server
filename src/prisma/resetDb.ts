@@ -7,13 +7,14 @@ export default async function resetDb() {
 
   const tables = tablenames
     .map(({ tablename }) => tablename)
-    .filter((name) => name !== '_prisma_migrations')
-    .map((name) => `"public"."${name}"`)
+    .filter(name => name !== '_prisma_migrations')
+    .map(name => `"public"."${name}"`)
     .join(', ');
 
   try {
     await prisma.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`);
-  } catch (error) {
+  }
+  catch (error) {
     console.log({ error });
   }
 }

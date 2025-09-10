@@ -1,11 +1,11 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
-import prisma from '../prisma/client.js';
-import { ResBody } from '../types/express/ResBody.js';
-import {
+import type { ResBody } from '../types/express/ResBody.js';
+import type {
   ReqBodyCreateProject,
   ReqBodyUpdateProject,
 } from '../types/schemas.js';
+import prisma from '../prisma/client.js';
 import { genNewProjectRank } from '../utils/lexorank/projectRank.js';
 
 export const createProject: RequestHandler<
@@ -42,7 +42,8 @@ export const createProject: RequestHandler<
     });
 
     res.json({ status: 'success', data: newProject });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -62,7 +63,8 @@ export const getProjects: RequestHandler<never, ResBody> = async (
     });
 
     res.json({ status: 'success', data: projects });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -89,7 +91,8 @@ export const getProjectById: RequestHandler<
     });
 
     res.json({ status: 'success', data: project });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -101,7 +104,7 @@ export const updateProject: RequestHandler<
 > = async (req, res, next) => {
   try {
     if (Object.keys(req.body).length === 0)
-      throw new Error("Request's body must not be empty");
+      throw new Error('Request\'s body must not be empty');
 
     const updatedProject = await prisma.project.update({
       where: {
@@ -121,7 +124,8 @@ export const updateProject: RequestHandler<
     });
 
     res.json({ status: 'success', data: updatedProject });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -148,7 +152,8 @@ export const deleteProject: RequestHandler<
     });
 
     res.json({ status: 'success', data: deletedProject });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

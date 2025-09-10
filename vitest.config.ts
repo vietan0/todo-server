@@ -8,5 +8,6 @@ export default defineConfig({
       provider: 'istanbul',
       exclude: [...configDefaults.coverage.exclude!, '**/{ignore,test}'],
     },
+    hookTimeout: 20000,
   },
 });

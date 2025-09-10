@@ -1,16 +1,24 @@
-module.exports = {
-  root: true,
-  env: { node: true, es2020: true },
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['simple-import-sort', '@stylistic'],
+import antfu from '@antfu/eslint-config';
+
+export default antfu({
+  ignores: [
+    'prisma/**/*',
+  ],
+  stylistic: {
+    semi: true,
+  },
   rules: {
-    '@typescript-eslint/no-unused-vars': 'off', // https://github.com/typescript-eslint/typescript-eslint/issues/4641
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
-    '@stylistic/padding-line-between-statements': [
-      'error',
+    'no-console': 'off',
+    'no-undef': 'off',
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': 'warn',
+    'test/consistent-test-it': ['error', {
+      withinDescribe: 'test',
+    }],
+    'test/prefer-lowercase-title': 'off',
+    'style/padding-line-between-statements': [
+      'warn',
       { blankLine: 'always', prev: '*', next: ['return', 'export'] },
       { blankLine: 'never', prev: 'export', next: 'export' },
       {
@@ -45,4 +53,4 @@ module.exports = {
       },
     ],
   },
-};
+});

@@ -1,19 +1,17 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
-export type Primitive =
-  | string
-  | number
-  | bigint
-  | boolean
-  | symbol
-  | null
-  | undefined
-  | Date;
+export type Primitive
+  = | string
+    | number
+    | bigint
+    | boolean
+    | symbol
+    | null
+    | undefined
+    | Date;
 export type PickPrimitive<T> = {
   [K in keyof T as T[K] extends Primitive ? K : never]: T[K];
 };
 // NonNever borrowed from ts-essentials - https://github.com/ts-essentials/ts-essentials/tree/master/lib/non-never
-export declare type NonNever<T extends {}> = Pick<
+export declare type NonNever<T extends object> = Pick<
   T,
   {
     [K in keyof T]: T[K] extends never ? never : K;

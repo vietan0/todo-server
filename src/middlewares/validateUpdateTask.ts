@@ -1,7 +1,9 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
-import {
+import type {
   ReqBodyUpdateTask,
+} from '../types/schemas.js';
+import {
   ReqBodyUpdateTaskSchema,
 } from '../types/schemas.js';
 
@@ -13,7 +15,8 @@ const validateUpdateTask: RequestHandler<
   try {
     ReqBodyUpdateTaskSchema.parse(req.body);
     next();
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

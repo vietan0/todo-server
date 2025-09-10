@@ -1,7 +1,9 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
-import {
+import type {
   ReqBodyCreateUser,
+} from '../types/schemas.js';
+import {
   ReqBodyCreateUserSchema,
 } from '../types/schemas.js';
 
@@ -13,7 +15,8 @@ const validateAuth: RequestHandler<never, never, ReqBodyCreateUser> = (
   try {
     ReqBodyCreateUserSchema.parse(req.body);
     next();
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

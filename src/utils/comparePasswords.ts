@@ -5,7 +5,6 @@ export default async function comparePasswords(
   hashed: string,
 ) {
   const result = await bcrypt.compare(plainPassword, hashed);
-  if (!result) throw new Error('Password is incorrect');
-
-  return;
+  if (!result)
+    throw new Error('Password is incorrect');
 }

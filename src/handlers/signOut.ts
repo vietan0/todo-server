@@ -1,10 +1,11 @@
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
 const signOut: RequestHandler = async (_req, res, next) => {
   try {
     res.clearCookie('token');
     res.json({ status: 'success' });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };

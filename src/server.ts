@@ -1,15 +1,17 @@
+import type { Response } from 'express';
+import type { IncomingMessage } from 'node:http';
+import type { ResBody } from './types/express/ResBody.js';
+import process from 'node:process';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express, { Response } from 'express';
-import { IncomingMessage } from 'http';
-import morgan from 'morgan';
+import express from 'express';
 
+import morgan from 'morgan';
 import apiRouter from './apiRouter.js';
 import authRouter from './authRouter.js';
 import fillRankRouter from './fillRankRouter.js';
 import errHandler from './handlers/errHandler.js';
 import auth from './middlewares/auth.js';
-import { ResBody } from './types/express/ResBody.js';
 
 const app = express();
 // useful logger
@@ -26,11 +28,11 @@ morgan.token('cookies', (req: IncomingMessage & { cookies: object }) => {
   return JSON.stringify(req.cookies, null, 2);
 });
 
-process.env.NODE_ENV !== 'test' &&
-  app.use([
-    morgan('dev'),
-    morgan('params: :params \nbody: :body \ncookies: :cookies'),
-  ]); // don't log while testing
+process.env.NODE_ENV !== 'test'
+&& app.use([
+  morgan('dev'),
+  morgan('params: :params \nbody: :body \ncookies: :cookies'),
+]); // don't log while testing
 
 app.use(
   cors({

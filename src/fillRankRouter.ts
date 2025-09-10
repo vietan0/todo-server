@@ -9,7 +9,8 @@ fillRankRouter.get('/project', async (_req, res, next) => {
   try {
     await fillNullProjectRanks();
     res.json({ status: 'success' });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 });
@@ -18,7 +19,8 @@ fillRankRouter.get('/task', async (_req, res, next) => {
   try {
     await fillNullTaskRanks();
     res.json({ status: 'success' });
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 });

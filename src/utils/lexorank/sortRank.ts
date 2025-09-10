@@ -1,7 +1,7 @@
 import { LexoRank } from 'lexorank';
 
 export function sortRank(ranks: (string | null)[]) {
-  const filtered = ranks.filter((r) => r !== null) as string[];
+  const filtered = ranks.filter(r => r !== null) as string[];
 
   return filtered.sort((a: string, b: string) =>
     LexoRank.parse(a).compareTo(LexoRank.parse(b)),

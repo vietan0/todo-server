@@ -1,10 +1,10 @@
+import type { ResBody } from '../types/express/ResBody.js';
 import { faker } from '@faker-js/faker';
 import request from 'supertest';
-import { beforeAll, describe, expect, test } from 'vitest';
 
+import { beforeAll, describe, expect, test } from 'vitest';
 import app from '../server.js';
 import { testIds } from '../test/projectTaskHelpers.js';
-import { ResBody } from '../types/express/ResBody.js';
 
 let token: string;
 const projectId = testIds.user[0].projects[1].id;
@@ -143,7 +143,7 @@ describe('CREATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Parent task can't be a child task, must be root-level",
+      message: 'Parent task can\'t be a child task, must be root-level',
       error: {},
     });
   });
@@ -276,7 +276,7 @@ describe('UPDATE task', () => {
 
     expect(res.body).toMatchObject({
       status: 'error',
-      message: "Task can't be its own parent",
+      message: 'Task can\'t be its own parent',
     });
   });
 
@@ -290,7 +290,7 @@ describe('UPDATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Target task can't be a parent",
+      message: 'Target task can\'t be a parent',
       error: {},
     });
   });
@@ -305,7 +305,7 @@ describe('UPDATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Parent task can't be a child",
+      message: 'Parent task can\'t be a child',
       error: {},
     });
   });
@@ -323,7 +323,7 @@ describe('UPDATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Can't pass both projectId and parentTaskId in one request",
+      message: 'Can\'t pass both projectId and parentTaskId in one request',
       error: {},
     });
   });
@@ -367,7 +367,7 @@ describe('UPDATE task', () => {
 
     expect(res.body).toStrictEqual({
       status: 'error',
-      message: "Request's body must not be empty",
+      message: 'Request\'s body must not be empty',
       error: expect.any(Object),
     });
   });
@@ -385,7 +385,7 @@ describe('DELETE task', () => {
       status: 'success',
       data: {
         id: taskIsParent,
-        projectId: projectId,
+        projectId,
       },
     });
 

@@ -1,5 +1,3 @@
 {
-  "*.{ts,tsx}": "pnpm run lint",
-  "*": "pnpm run prettier",
-  "package.json": "pnpm run pretpkg"
+  "*.{ts,tsx}": "pnpm exec eslint --fix"
 }

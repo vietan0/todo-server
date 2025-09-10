@@ -1,8 +1,8 @@
-import { Prisma } from '@prisma/client';
-import { toZod } from 'tozod';
-import { z } from 'zod';
+import type { Prisma } from '@prisma/client';
+import type { toZod } from 'tozod';
+import type { ExtractPrimitive } from './helpers.js';
 
-import { ExtractPrimitive } from './helpers.js';
+import { z } from 'zod';
 
 // the fact that I use UserUnchecked..., TaskUnchecked...
 // doesn't have anything to do with prisma.task.create()
