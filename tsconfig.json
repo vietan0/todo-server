@@ -4,8 +4,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noEmitOnError": true,
-    "outDir": "dist",
-    "sourceMap": true
+    "outDir": "dist"
   },
-  "exclude": ["ignore"]
+  "exclude": ["ignore", "**/*.test.ts", "src/test/**", "**/*.config.ts"]
 }

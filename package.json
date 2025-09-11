@@ -8,7 +8,7 @@
   "license": "ISC",
   "keywords": [],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "check": "npm-run-all -p type lint test:once",
     "coverage": "vitest run --coverage",
     "dev": "npm-run-all -p dev-server postman studio",
@@ -19,7 +19,7 @@
     "mig": "prisma migrate dev --name",
     "postman": "bash postman.sh",
     "prepare": "husky",
-    "start": "node dist/src",
+    "start": "node dist",
     "studio": "prisma studio",
     "test": "vitest",
     "test:once": "vitest run",
@@ -70,7 +70,12 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@prisma/client"
+      "@prisma/client",
+      "prisma",
+      "puppeteer"
     ]
+  },
+  "lint-staged": {
+    "*.ts": "pnpm exec eslint --fix"
   }
 }
