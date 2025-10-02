@@ -39,7 +39,7 @@ app.use(
     origin: [
       'http://localhost:5173', // dev
       'http://localhost:4173', // preview
-      'https://todo-fe-vietan0.netlify.app', // prod
+      'https://todoistmd.netlify.app', // prod
     ],
     credentials: true,
   }),
